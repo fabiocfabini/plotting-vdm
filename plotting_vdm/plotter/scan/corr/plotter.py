@@ -51,7 +51,7 @@ class CorrPlotter(Plotter):
 
                 self.plot_strategy.do_plot(data, ref, label=detector, color=self.config.colors[i])
 
-            self._post_plot(result, fit, correction)
+            self._post_plot(result, fit, correction, ref_correction)
 
     def get_reference_correction(self, correction: str, applied_corrections: list) -> str:
         base_ref_corr = self.base_reference
@@ -73,9 +73,10 @@ class CorrPlotter(Plotter):
 
         return ref_corr
 
-    def _post_plot(self, result: ScanResults, fit: str, correction: str):
+    def _post_plot(self, result: ScanResults, fit: str, correction: str, ref_correction: str):
         self.plot_strategy.style_plot(
-            scan_name=result.name, fit=fit, correction=correction
+            scan_name=result.name, fit=fit,
+            correction=correction, difference=ref_correction.split("_")[-1]
         )
 
         self.plot_strategy.save_plot(

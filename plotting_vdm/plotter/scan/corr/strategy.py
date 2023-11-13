@@ -35,13 +35,12 @@ class CorrPlotStrategy:
                 .set_axis(self.axis_text)\
                 .set_info(f"Effect of {difference} on {self.latex}")\
                 .build()
-
         plt.title(title)
         plt.xlabel("BCID")
         plt.ylabel(f"Effect of {difference} on {self.latex}")
 
         plt.grid()
-        plt.legend()
+        plt.legend(loc="best")
 
     def save_plot(self, ouput_dir: Path, file_name: str, *, suffix: str = "", file_ext: str = "png"):
         path = ouput_dir/"corr"/self.output_folder_name
