@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 from plotting_vdm.scan_results import ScanResults
 from plotting_vdm.plotter.config import PlotterCongig, EvoPlotterConfig
 from plotting_vdm.plotter.scan.ratio import *
-from plotting_vdm.plotter.scan.bcid import *
+from plotting_vdm.plotter.scan.normal import *
 from plotting_vdm.plotter.scan.corr import *
 from plotting_vdm.plotter.evo import *
 
@@ -22,44 +22,44 @@ results = [ScanResults(path, fits=fits, name=name) for name, path in zip(names, 
 results.sort(key=lambda scan: scan.start)
 
 
-# config = PlotterCongig(Path("plots_final"))
+config = PlotterCongig(Path("plots_final"))
 
-# bcid_plotter = BCIDPlotter(config)
-# bcid_strategies: list[BCIDPlotStrategy] = [
-#     CapSigmaXBCIDPlotStrategy(),
-#     CapSigmaYBCIDPlotStrategy(),
-#     PeakXBCIDPlotStrategy(),
-#     PeakYBCIDPlotStrategy(),
-#     SigVisBCIDPlotStrategy(),
-#     SBILBCIDPlotStrategy(),
-# ]
-# for bcid_strategy in bcid_strategies:
-#     bcid_plotter.plot_strategy = bcid_strategy
+bcid_plotter = NormalPlotter(config)
+bcid_strategies: list[NormalPlotStrategy] = [
+    CapSigmaXNormalPlotStrategy(),
+    CapSigmaYNormalPlotStrategy(),
+    PeakXNormalPlotStrategy(),
+    PeakYNormalPlotStrategy(),
+    SigVisNormalPlotStrategy(),
+    SBILNormalPlotStrategy(),
+]
+for bcid_strategy in bcid_strategies:
+    bcid_plotter.plot_strategy = bcid_strategy
 
-#     bcid_plotter.plot_many(results)
+    bcid_plotter.plot_many(results)
 
-# ratio_plotter = RatioPlotter("HFOC", config)
-# ratio_strategies: list[RatioPlotStrategy] = [
-#     CapSigmaXRatioPlotStrategy(),
-#     CapSigmaYRatioPlotStrategy(),
-# ]
-# for ratio_strategy in ratio_strategies:
-#     ratio_plotter.plot_strategy = ratio_strategy
+ratio_plotter = RatioPlotter("HFOC", config)
+ratio_strategies: list[RatioPlotStrategy] = [
+    CapSigmaXRatioPlotStrategy(),
+    CapSigmaYRatioPlotStrategy(),
+]
+for ratio_strategy in ratio_strategies:
+    ratio_plotter.plot_strategy = ratio_strategy
 
-#     ratio_plotter.plot_many(results)
+    ratio_plotter.plot_many(results)
 
-# corr_plotter = CorrPlotter("Background", config)
-# corr_strategies: list[CorrPlotStrategy] = [
-#     CapSigmaXCorrPlotStrategy(),
-#     CapSigmaYCorrPlotStrategy(),
-#     PeakXCorrPlotStrategy(),
-#     PeakYCorrPlotStrategy(),
-#     SigVisCorrPlotStrategy(),
-# ]
-# for corr_strategy in corr_strategies:
-#     corr_plotter.plot_strategy = corr_strategy
+corr_plotter = CorrPlotter("Background", config)
+corr_strategies: list[CorrPlotStrategy] = [
+    CapSigmaXCorrPlotStrategy(),
+    CapSigmaYCorrPlotStrategy(),
+    PeakXCorrPlotStrategy(),
+    PeakYCorrPlotStrategy(),
+    SigVisCorrPlotStrategy(),
+]
+for corr_strategy in corr_strategies:
+    corr_plotter.plot_strategy = corr_strategy
 
-#     corr_plotter.plot_many(results)
+    corr_plotter.plot_many(results)
 
 evo_config = EvoPlotterConfig(Path("plots_final"), xticks=names)
 evo_strategies: list[EvoPlotStrategy] = [

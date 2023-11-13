@@ -7,17 +7,17 @@ import matplotlib.pyplot as plt
 from plotting_vdm.plotter.scan.base import Plotter
 from plotting_vdm.plotter.config import PlotterCongig
 from plotting_vdm.scan_results import ScanResults
-from .strategy import BCIDPlotStrategy
+from .strategy import NormalPlotStrategy
 
 
 @dataclass
-class BCIDPlotter(Plotter):
+class NormalPlotter(Plotter):
     config: PlotterCongig
-    plot_strategy: Optional[BCIDPlotStrategy] = None
+    plot_strategy: Optional[NormalPlotStrategy] = None
 
-    def set_strategy(self, plot_strategy: BCIDPlotStrategy):
-        if not isinstance(plot_strategy, BCIDPlotStrategy):
-            raise TypeError(f"Expected BCIDPlotStrategy, got {type(plot_strategy)}")
+    def set_strategy(self, plot_strategy: NormalPlotStrategy):
+        if not isinstance(plot_strategy, NormalPlotStrategy):
+            raise TypeError(f"Expected NormalPlotStrategy, got {type(plot_strategy)}")
 
         self.plot_strategy = plot_strategy
 
@@ -31,7 +31,7 @@ class BCIDPlotter(Plotter):
             else:
                 self._not_plot_per_detector(result, fit, correction)
 
-    def _not_plot_per_detector(self, result: ScanResults, fit: str, correction: str):
+    def _plot_per_detector(self, result: ScanResults, fit: str, correction: str):
         for i, detector in enumerate(result.detectors):
             plt.cla()
 
@@ -41,7 +41,7 @@ class BCIDPlotter(Plotter):
 
             self._post_plot(result, fit, correction)
 
-    def _plot_per_detector(self, result: ScanResults, fit: str, correction: str):
+    def _not_plot_per_detector(self, result: ScanResults, fit: str, correction: str):
         plt.cla()
         for i, detector in enumerate(result.detectors):
             data = result.results[fit].query(

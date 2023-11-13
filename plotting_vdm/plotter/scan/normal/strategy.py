@@ -9,7 +9,7 @@ from plotting_vdm.plotter.utils import TitleBuilder
 
 
 def _set_current_detector(method):
-    def wrapper(self: BCIDPlotStrategy, data: pd.DataFrame, *args, **kwargs):
+    def wrapper(self: NormalPlotStrategy, data: pd.DataFrame, *args, **kwargs):
         if self.plot_per_detector:
             self.current_detector = data["detector"].unique().item()
 
@@ -19,7 +19,7 @@ def _set_current_detector(method):
 
 
 @dataclass
-class BCIDPlotStrategy:
+class NormalPlotStrategy:
     latex: str
     quantity: str
     output_folder_name: str
@@ -35,7 +35,6 @@ class BCIDPlotStrategy:
     @property
     def plot_per_detector(self) -> bool:
         return self.plot_per_detector
-
 
     @_set_current_detector
     def do_plot(self, data: pd.DataFrame, *, label: str, color: str = "k"):
@@ -61,10 +60,10 @@ class BCIDPlotStrategy:
         plt.ylabel(self.latex)
 
         plt.grid()
-        plt.legend()
+        plt.legend(loc="best")
 
     def save_plot(self, ouput_dir: Path, file_name: str, *, suffix: str = "", file_ext: str = "png"):
-        path = ouput_dir/"bcid"/self.output_folder_name/self.current_detector
+        path = ouput_dir/"normal"/self.output_folder_name/self.current_detector
         path.mkdir(parents=True, exist_ok=True)
 
         file_name = f"{self.file_name_prepend}{file_name}{suffix}.{file_ext}"
@@ -73,7 +72,7 @@ class BCIDPlotStrategy:
 
 
 @dataclass
-class CapSigmaXBCIDPlotStrategy(BCIDPlotStrategy):
+class CapSigmaXNormalPlotStrategy(NormalPlotStrategy):
     latex: str = r"$\Sigma_X$"
     quantity: str = "CapSigma_X"
     quantity_err: str = "CapSigmaErr_X"
@@ -85,7 +84,7 @@ class CapSigmaXBCIDPlotStrategy(BCIDPlotStrategy):
 
 
 @dataclass
-class CapSigmaYBCIDPlotStrategy(BCIDPlotStrategy):
+class CapSigmaYNormalPlotStrategy(NormalPlotStrategy):
     latex: str = r"$\Sigma_Y$"
     quantity: str = "CapSigma_Y"
     quantity_err: str = "CapSigmaErr_Y"
@@ -97,7 +96,7 @@ class CapSigmaYBCIDPlotStrategy(BCIDPlotStrategy):
 
 
 @dataclass
-class PeakXBCIDPlotStrategy(BCIDPlotStrategy):
+class PeakXNormalPlotStrategy(NormalPlotStrategy):
     latex: str = r"$\mathrm{Peak}_X$"
     quantity: str = "peak_X"
     quantity_err: str = "peakErr_X"
@@ -109,7 +108,7 @@ class PeakXBCIDPlotStrategy(BCIDPlotStrategy):
 
 
 @dataclass
-class PeakYBCIDPlotStrategy(BCIDPlotStrategy):
+class PeakYNormalPlotStrategy(NormalPlotStrategy):
     latex: str = r"$\mathrm{Peak}_Y$"
     quantity: str = "peak_Y"
     quantity_err: str = "peakErr_Y"
@@ -121,7 +120,7 @@ class PeakYBCIDPlotStrategy(BCIDPlotStrategy):
 
 
 @dataclass
-class SigVisBCIDPlotStrategy(BCIDPlotStrategy):
+class SigVisNormalPlotStrategy(NormalPlotStrategy):
     latex: str = r"$\sigma_{\mathrm{vis}}$"
     quantity: str = "xsec"
     quantity_err: str = "xsecErr"
@@ -130,7 +129,7 @@ class SigVisBCIDPlotStrategy(BCIDPlotStrategy):
 
 
 @dataclass
-class SBILBCIDPlotStrategy(BCIDPlotStrategy):
+class SBILNormalPlotStrategy(NormalPlotStrategy):
     latex: str = r"SBIL"
     quantity: str = "SBIL"
     quantity_err: str = "SBILErr"
@@ -139,7 +138,7 @@ class SBILBCIDPlotStrategy(BCIDPlotStrategy):
 
 
 @dataclass
-class RChi2XBCIDPlotStrategy(BCIDPlotStrategy):
+class RChi2XNormalPlotStrategy(NormalPlotStrategy):
     latex: str = r"$\chi_{\mathrm{reduced}_X}^2$"
     quantity: str = "chi2_X"
     output_folder_name: str = "rchi2"
@@ -154,7 +153,7 @@ class RChi2XBCIDPlotStrategy(BCIDPlotStrategy):
 
 
 @dataclass
-class RChi2YBCIDPlotStrategy(BCIDPlotStrategy):
+class RChi2YNormalPlotStrategy(NormalPlotStrategy):
     latex: str = r"$\chi_{\mathrm{reduced}_Y}^2$"
     quantity: str = "chi2_Y"
     output_folder_name: str = "rchi2"
