@@ -33,7 +33,7 @@ class NormalPlotter(Plotter):
 
     def _plot_per_detector(self, result: ScanResults, fit: str, correction: str):
         for i, detector in enumerate(result.detectors):
-            plt.cla()
+            plt.clf()
 
             data = result.results[fit].query(
                 f"detector == '{detector}' and correction == '{correction}'")
@@ -42,7 +42,7 @@ class NormalPlotter(Plotter):
             self._post_plot(result, fit, correction)
 
     def _not_plot_per_detector(self, result: ScanResults, fit: str, correction: str):
-        plt.cla()
+        plt.clf()
         for i, detector in enumerate(result.detectors):
             data = result.results[fit].query(
                 f"detector == '{detector}' and correction == '{correction}'")

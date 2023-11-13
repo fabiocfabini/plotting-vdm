@@ -34,7 +34,7 @@ class CorrPlotter(Plotter):
             if correction == "noCorr":
                 continue
 
-            plt.cla()
+            plt.clf()
 
             ref_correction = self.get_reference_correction(correction, applied_corrections)
             for i, detector in enumerate(result.detectors):

@@ -39,7 +39,7 @@ class EvoPlotter:
 
     def _plot_per_detector(self, results: Sequence[ScanResults], fit: str, correction: str):
         for i, detector in enumerate(results[0].detectors):
-            plt.cla()
+            plt.clf()
             
             datas = [
                 result.results[fit]\
@@ -51,7 +51,7 @@ class EvoPlotter:
             self._post_plot(fit, correction)
 
     def _not_plot_per_detector(self, results: Sequence[ScanResults], fit: str, correction: str):
-        plt.cla()
+        plt.clf()
 
         for i, detector in enumerate(results[0].detectors):
             datas = [

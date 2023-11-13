@@ -29,7 +29,7 @@ class RatioPlotter(Plotter):
 
         for fit, correction in product(result.fits, result.corrections):
 
-            plt.cla()
+            plt.clf()
 
             for i, detector in enumerate(result.detectors):
                 if detector == self.reference_detector:
