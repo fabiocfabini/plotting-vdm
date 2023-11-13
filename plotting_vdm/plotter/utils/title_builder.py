@@ -2,6 +2,8 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
+from .corrections import CORRECTIONS
+
 
 class AutoAttrList(type):
     """This Metaclass automatically creates a list of all attributes 
@@ -46,7 +48,11 @@ class TitleBuilder(metaclass=AutoAttrList):
         return self
 
     def set_correction(self, correction: str) -> TitleBuilder:
-        self.__correction = correction
+        for name in correction.split("_"):
+            self.__correction += f"{CORRECTIONS[name]}_"
+
+        # Remove last underscore
+        self.__correction = self.__correction[:-1]
         return self
 
     def set_detector(self, detector: str) -> TitleBuilder:
