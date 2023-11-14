@@ -48,7 +48,7 @@ class NormalPlotStrategy(PlotStrategy):
         self.output_dir = self.output_dir/"plots"/"normal"
         self.fmt = kwargs.get("fmt", "o")
         self.legend_fontsize = kwargs.get("legend_fontsize", 12)
-        self.color = kwargs.get("color", ["k", "r", "g", "b", "m", "c", "y"])
+        self.colors = kwargs.get("colors", ["k", "r", "g", "b", "m", "c", "y"])
 
     def on_correction_loop_entry(self, results: ScanResults, fit, correction) -> bool:
         plt.clf()
@@ -66,8 +66,8 @@ class NormalPlotStrategy(PlotStrategy):
             data[self.quantity],
             yerr=data[self.error],
             label=detector,
-            fmt=fmt,
-            color=colors[i],
+            fmt=self.fmt,
+            color=self.colors[i],
         )
 
     def on_correction_loop_exit(self, results: ScanResults, fit, correction):
@@ -240,7 +240,7 @@ if __name__ == "__main__":
     scan = ScanResults(Path("analysed_data/8381_11Nov22_114759_11Nov22_121408"), fits=["SG", "DG"])
     plotter = ScanPlotter()
 
-    strategy = RatioPlotStrategy(
+    strategy = NormalPlotStrategy(
         reference_detector="HFOC",
         quantity="CapSigma_X",
         error="CapSigmaErr_X",
@@ -249,7 +249,7 @@ if __name__ == "__main__":
     plotter.plot_strategy = strategy
     plotter(scan)
 
-    strategy = RatioPlotStrategy(
+    strategy = NormalPlotStrategy(
         reference_detector="HFOC",
         quantity="CapSigma_Y",
         error="CapSigmaErr_Y",
