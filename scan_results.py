@@ -86,13 +86,6 @@ class ScanResults:
     _correction_prefixes: ClassVar[Tuple[str, ...]] = (
         "noCorr", "Background"
     )  # what other correction prefixes are there?
-    _quantity_to_latex: ClassVar[Dict[str, str]] = {
-        "CapSigma_X": r"$\sigma_X$",
-        "CapSigma_Y": r"$\sigma_Y$",
-        "peak_X": r"Pea$k_X$",
-        "peak_Y": r"Pea$k_Y$",
-        "xsec": r"$\sigma_{vis}$",
-    }
 
     def __init__(self,
                 path: Union[Path, str],
@@ -149,66 +142,8 @@ class ScanResults:
     def energy_str(self) -> str:
         return f"{self.energy} {self.energy_unit}"
 
-    def is_common_column(self, column: str) -> bool:
-        """Checks if the column is common to all fits.
-
-        Arguments
-        ---------
-            column : str
-                The column to check.
-
-        Returns
-        -------
-            bool
-                Tr  ue if the column is common to all fits.
-        """
-        return all(column in result.columns for result in self.results.values())
-
-    @classmethod
-    def get_quantity_latex(cls, quantity: str) -> str:
-        """Returns the LaTeX respresentation of the quantity.
-
-        Arguments
-        ---------
-            quantity : str
-                The quantity to get the LaTeX representation of.
-
-        Returns
-        -------
-            str
-                The LaTeX representation of the quantity.
-
-        Raises
-        ------
-            ValueError
-                If the quantity is not recognized or is not valid.
-        """
-
-        if quantity not in cls._quantity_to_latex:
-            raise ValueError(f"Quantity '{quantity}' is not recognized.")
-
-        return cls._quantity_to_latex[quantity]
-
-    @classmethod
-    def get_quantity_and_error(cls, quantity: str) -> Tuple[str, str]:
-        """Returns the quantity and error for the given quantity.
-
-        Arguments
-        ---------
-            quantity : str
-                The quantity to get the quantity and error for.
-
-        Returns
-        -------
-            Tuple[str, str]
-                The quantity and error for the given quantity.
-        """
-        if quantity.endswith("_X"):
-            return quantity, quantity.replace("_X", "Err_X")
-        elif quantity.endswith("_Y"):
-            return quantity, quantity.replace("_Y", "Err_Y")
-        else:
-            return quantity, f"{quantity}Err"
+    def filter_results_by(self, fit: str, correction: str, detector: str) -> pd.DataFrame:
+        return self.results[fit].query(f"detector == '{detector}' and correction == '{correction}'")
 
     def _get_fill_number(self) -> int:
         result = re.match(r"^(\d)*", self._path.stem)
