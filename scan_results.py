@@ -5,6 +5,7 @@ from datetime import datetime
 
 import re
 
+import numpy as np
 import pandas as pd
 
 
@@ -142,8 +143,33 @@ class ScanResults:
     def energy_str(self) -> str:
         return f"{self.energy} {self.energy_unit}"
 
-    def filter_results_by(self, fit: str, correction: str, detector: str) -> pd.DataFrame:
-        return self.results[fit].query(f"detector == '{detector}' and correction == '{correction}'")
+    def filter_results_by(self, fit: str, correction: str, detector: str, quality: str = "as_is") -> pd.DataFrame:
+        data = self.results[fit].query(
+            f"detector == '{detector}' and correction == '{correction}'"
+        )
+
+        if quality == "good":
+            return self._filter_good_cov_status(data, 3)
+        elif quality == "bad":
+            return self._filter_good_cov_status(data, 1)
+        elif quality == "as_is":
+            return data
+
+    def _filter_good_cov_status(self, data: pd.DataFrame, cov_status: int) -> pd.DataFrame:
+        good_bcids_in_x = data[data["covStatus_X"] == cov_status]["BCID"].to_numpy()
+        good_bcids_in_y = data[data["covStatus_Y"] == cov_status]["BCID"].to_numpy()
+        
+        good_bcids = good_bcids_in_x
+
+        if good_bcids_in_x.shape != good_bcids_in_y.shape or np.any(good_bcids_in_x != good_bcids_in_y):
+            good_bcids = np.intersect1d(good_bcids_in_x, good_bcids_in_y)
+
+        data = data[data["BCID"].isin(good_bcids)].reset_index(drop=True)
+
+        assert data["covStatus_X"].unique() == cov_status
+        assert data["covStatus_Y"].unique() == cov_status
+
+        return data
 
     def _get_fill_number(self) -> int:
         result = re.match(r"^(\d)*", self._path.stem)

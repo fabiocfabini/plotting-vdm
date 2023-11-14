@@ -7,7 +7,9 @@ from scan_results import ScanResults
 from title_builder import TitleBuilder
 from functions import match_bcids
 
+import matplotlib
 import matplotlib.pyplot as plt
+matplotlib.use("Agg")
 
 
 @dataclass
@@ -152,7 +154,7 @@ class RatioPlotStrategy(PlotStrategy):
             self.output_dir = Path(self.output_dir)
         self.output_dir = self.output_dir/"plots"/"ratio"
         self.fmt = kwargs.get("fmt", "o")
-        self.color = kwargs.get("color", ["k", "r", "g", "b", "m", "c", "y"])
+        self.color = kwargs.get("color", ["k", "r", "b", "g", "m", "c", "y"])
         self.legend_fontsize = kwargs.get("legend_fontsize", 12)
 
     def on_correction_loop_entry(self, results: ScanResults, fit: str, correction: str) -> bool:
@@ -166,14 +168,13 @@ class RatioPlotStrategy(PlotStrategy):
         if detector == self.reference_detector:
             return
 
-        data = results.filter_results_by(fit, correction, detector)
-        ref = results.filter_results_by(fit, correction, self.reference_detector)
-
-        if not ref["BCID"].equals(data["BCID"]):
-            bcid_filter = np.intersect1d(ref["BCID"], data["BCID"])
-
-            data = data[data["BCID"].isin(bcid_filter)].reset_index(drop=True)
-            ref = ref[ref["BCID"].isin(bcid_filter)].reset_index(drop=True)
+        data = results.filter_results_by(
+            fit, correction, detector, quality="good"
+        ).set_index("BCID")
+        ref = results.filter_results_by(
+            fit, correction, self.reference_detector, quality="good"
+        ).set_index("BCID")
+        data, ref = match_bcids(data, ref)
 
         yaxis = data[self.quantity] / ref[self.quantity]
         yerr = yaxis * np.sqrt(
@@ -182,7 +183,7 @@ class RatioPlotStrategy(PlotStrategy):
         )
 
         plt.errorbar(
-            data["BCID"],
+            data.index,
             yaxis,
             yerr=yerr,
             label=f"{detector}/{self.reference_detector}",
@@ -194,12 +195,12 @@ class RatioPlotStrategy(PlotStrategy):
         title = TitleBuilder() \
                 .set_fit(fit) \
                 .set_correction(correction) \
-                .set_info(results.name).build()
+                .set_info(f"Ratio of {self.quantity_latex}").build()
 
         plt.grid()
         plt.title(title)
         plt.xlabel(self.xlabel)
-        plt.ylabel(self.quantity_latex)
+        plt.ylabel(f"Ratio of {self.quantity_latex}")
         plt.legend(loc=self.legend_loc, fontsize=self.legend_fontsize)
         plt.ticklabel_format(useOffset=False, axis="y")  # Prevent plt from adding offset to y axis
 
