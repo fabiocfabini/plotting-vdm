@@ -210,8 +210,6 @@ class RatioPlotStrategy(PlotStrategy):
         plt.savefig(path/file)
 
 
-
-
 class ScanPlotter:
     def __init__(self, plot_strategy: PlotStrategy = None):
         self.plot_strategy = plot_strategy
@@ -239,6 +237,7 @@ class ScanPlotter:
 
 if __name__ == "__main__":
     scan = ScanResults(Path("analysed_data/8381_11Nov22_114759_11Nov22_121408"), fits=["SG", "DG"])
+    plotter = ScanPlotter()
 
     strategy = RatioPlotStrategy(
         reference_detector="HFOC",
@@ -246,5 +245,15 @@ if __name__ == "__main__":
         error="CapSigmaErr_X",
         quantity_latex=r"$\Sigma_X$"
     )
+    plotter.plot_strategy = strategy
+    plotter(scan)
+
+    strategy = RatioPlotStrategy(
+        reference_detector="HFOC",
+        quantity="CapSigma_Y",
+        error="CapSigmaErr_Y",
+        quantity_latex=r"$\Sigma_Y$"
+    )
     plotter = ScanPlotter(strategy)
+    plotter.plot_strategy = strategy
     plotter(scan)
