@@ -2,7 +2,7 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=python
 
 ### Custom ###
-*.png
+PLOTS/
 analysed_data/
 .vscode/
 
