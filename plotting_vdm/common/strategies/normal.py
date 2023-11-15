@@ -14,6 +14,7 @@ class NormalPlotStrategy(PlotStrategy):
         self.quantity_latex = quantity_latex if quantity_latex else quantity
 
         self.output_dir = self.output_dir/"normal"
+        self.xlabel = kwargs.get("xlabel", "BCID")
 
     def on_correction_loop_entry(self, results: OneOrMany[ScanResults], fit, correction) -> bool:
         plt.clf()
@@ -62,6 +63,7 @@ class NormalSeparatePlotStrategy(PlotStrategy):
 
         self.output_dir = self.output_dir/"normal"
         self.color = kwargs.get("color", "b")
+        self.xlabel = kwargs.get("xlabel", "BCID")
 
     def on_detector_loop(self, i, results: OneOrMany[ScanResults], fit, correction, detector):
         plt.clf()

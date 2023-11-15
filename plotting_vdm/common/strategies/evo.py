@@ -15,6 +15,7 @@ class EvoPlotStrategy(PlotStrategy):
         self.quantity_latex = quantity_latex if quantity_latex else quantity
 
         self.output_dir = self.output_dir/"evo"
+        self.xlabel = kwargs.get("xlabel", "Scan Name")
         self.ticks_fontsize = kwargs.get("ticks_fontsize", 8)
         self.ticks_rotation = kwargs.get("ticks_rotation", 0)
 
@@ -83,6 +84,7 @@ class EvoSeparatePlotStrategy(PlotStrategy):
         self.quantity_latex = quantity_latex if quantity_latex else quantity
 
         self.output_dir = self.output_dir/"evo"
+        self.xlabel = kwargs.get("xlabel", "Scan Name")
         self.ticks_fontsize = kwargs.get("ticks_fontsize", 8)
         self.ticks_rotation = kwargs.get("ticks_rotation", 0)
 

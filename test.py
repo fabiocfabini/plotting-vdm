@@ -13,7 +13,6 @@ if __name__ == "__main__":
         quantity="CapSigma_X",
         error="CapSigmaErr_X",
         quantity_latex=r"$\Sigma_X$",
-        xlabel="BCID",
     )
     plotter.plot_strategy = strategy
     plotter(scan)
@@ -22,7 +21,6 @@ if __name__ == "__main__":
         quantity="CapSigma_Y",
         error="CapSigmaErr_Y",
         quantity_latex=r"$\Sigma_Y$",
-        xlabel="BCID",
     )
     plotter.plot_strategy = strategy
     plotter(scan)
@@ -31,7 +29,6 @@ if __name__ == "__main__":
         quantity="CapSigma_X",
         error="CapSigmaErr_X",
         quantity_latex=r"$\Sigma_X$",
-        xlabel="BCID",
     )
     plotter.plot_strategy = strategy
     plotter(scan)
@@ -40,7 +37,6 @@ if __name__ == "__main__":
         quantity="CapSigma_Y",
         error="CapSigmaErr_Y",
         quantity_latex=r"$\Sigma_Y$",
-        xlabel="BCID",
     )
     plotter.plot_strategy = strategy
     plotter(scan)
@@ -49,7 +45,6 @@ if __name__ == "__main__":
         quantity="peak_X",
         error="peakErr_X",
         quantity_latex=r"$\mathrm{Peak}_X$",
-        xlabel="BCID",
     )
     plotter.plot_strategy = strategy
     plotter(scan)
@@ -58,7 +53,6 @@ if __name__ == "__main__":
         quantity="peak_Y",
         error="peakErr_Y",
         quantity_latex=r"$\mathrm{Peak}_Y$",
-        xlabel="BCID",
     )
     plotter.plot_strategy = strategy
     plotter(scan)
@@ -67,7 +61,6 @@ if __name__ == "__main__":
         quantity="peak_X",
         error="peakErr_X",
         quantity_latex=r"$\mathrm{Peak}_X$",
-        xlabel="BCID",
     )
     plotter.plot_strategy = strategy
     plotter(scan)
@@ -76,7 +69,6 @@ if __name__ == "__main__":
         quantity="peak_Y",
         error="peakErr_Y",
         quantity_latex=r"$\mathrm{Peak}_Y$",
-        xlabel="BCID",
     )
     plotter.plot_strategy = strategy
     plotter(scan)
@@ -85,7 +77,6 @@ if __name__ == "__main__":
         quantity="xsec",
         error="xsecErr",
         quantity_latex=r"$\sigma_{\mathrm{vis}}$",
-        xlabel="BCID",
     )
     plotter.plot_strategy = strategy
     plotter(scan)
@@ -94,7 +85,6 @@ if __name__ == "__main__":
         quantity="xsec",
         error="xsecErr",
         quantity_latex=r"$\sigma_{\mathrm{vis}}$",
-        xlabel="BCID",
     )
     plotter.plot_strategy = strategy
     plotter(scan)
@@ -104,7 +94,6 @@ if __name__ == "__main__":
         quantity="CapSigma_X",
         error="CapSigmaErr_X",
         quantity_latex=r"$\Sigma_X$",
-        xlabel="BCID",
     )
     plotter.plot_strategy = strategy
     plotter(scan)
@@ -114,7 +103,6 @@ if __name__ == "__main__":
         quantity="CapSigma_Y",
         error="CapSigmaErr_Y",
         quantity_latex=r"$\Sigma_Y$",
-        xlabel="BCID",
     )
     plotter.plot_strategy = strategy
     plotter(scan)
@@ -124,7 +112,6 @@ if __name__ == "__main__":
         quantity="CapSigma_X",
         error="CapSigmaErr_X",
         quantity_latex=r"$\Sigma_X$",
-        xlabel="BCID",
     )
     plotter.plot_strategy = strategy
     plotter(scan)
@@ -134,7 +121,6 @@ if __name__ == "__main__":
         quantity="CapSigma_Y",
         error="CapSigmaErr_Y",
         quantity_latex=r"$\Sigma_Y$",
-        xlabel="BCID",
     )
     plotter.plot_strategy = strategy
     plotter(scan)
@@ -144,7 +130,6 @@ if __name__ == "__main__":
         quantity="peak_X",
         error="peakErr_X",
         quantity_latex=r"$\Sigma_X$",
-        xlabel="BCID",
     )
     plotter.plot_strategy = strategy
     plotter(scan)
@@ -154,7 +139,6 @@ if __name__ == "__main__":
         quantity="peak_Y",
         error="peakErr_Y",
         quantity_latex=r"$\Sigma_Y$",
-        xlabel="BCID",
     )
     plotter.plot_strategy = strategy
     plotter(scan)
@@ -164,7 +148,6 @@ if __name__ == "__main__":
         quantity="xsec",
         error="xsecErr",
         quantity_latex=r"$\sigma_{\mathrm{vis}}$",
-        xlabel="BCID",
     )
     plotter.plot_strategy = strategy
     plotter(scan)
@@ -180,7 +163,6 @@ if __name__ == "__main__":
         quantity="CapSigma_X",
         error="CapSigmaErr_X",
         quantity_latex=r"$\Sigma_X$",
-        xlabel="Scan Name",
     )
     plotter.plot_strategy = strategy
     plotter(all_scans)
@@ -189,7 +171,6 @@ if __name__ == "__main__":
         quantity="xsec",
         error="xsecErr",
         quantity_latex=r"$\sigma_{\mathrm{vis}}$",
-        xlabel="Scan Name",
     )
     plotter.plot_strategy = strategy
     plotter(all_scans)

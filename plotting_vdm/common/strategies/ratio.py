@@ -17,6 +17,7 @@ class RatioPlotStrategy(PlotStrategy):
         self.quantity_latex = quantity_latex if quantity_latex else quantity
 
         self.output_dir = self.output_dir/"ratio"
+        self.xlabel = kwargs.get("xlabel", "BCID")
 
     def on_correction_loop_entry(self, results: OneOrMany[ScanResults], fit: str, correction: str) -> bool:
         plt.clf()
