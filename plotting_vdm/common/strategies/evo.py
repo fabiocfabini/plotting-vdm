@@ -1,43 +1,34 @@
-from typing import Dict, Any, Sequence
-from pathlib import Path
-
 import numpy as np
 import matplotlib.pyplot as plt
 
 from plotting_vdm.scan_results import ScanResults
+from plotting_vdm._typing import OneOrMany
 from plotting_vdm.utils.title_builder import TitleBuilder
+from .base import PlotStrategy
 
 
-class PlotStrategy:
+class EvoPlotStrategy(PlotStrategy):
     def __init__(self, quantity: str, error: str, quantity_latex: str = "", **kwargs):
-        self.context: Dict[str, Any] = {}
+        super().__init__(**kwargs)
         self.quantity = quantity
         self.error = error
         self.quantity_latex = quantity_latex if quantity_latex else quantity
 
-        self.xlabel = kwargs.get("xlabel", "Scan Name")
-        self.legend_loc = kwargs.get("legend_loc", "best")
-        self.output_dir: Path = kwargs.get("output_dir", Path("."))
-        if not isinstance(self.output_dir, Path):
-            self.output_dir = Path(self.output_dir)
-        self.output_dir = self.output_dir/"plots"/"evo"
-        self.fmt = kwargs.get("fmt", "o")
-        self.legend_fontsize = kwargs.get("legend_fontsize", 12)
-        self.colors = kwargs.get("colors", ["k", "r", "b", "g", "m", "c", "y"])
-        self.markersize = kwargs.get("markersize", 5)
+        self.output_dir = self.output_dir/"evo"
         self.ticks_fontsize = kwargs.get("ticks_fontsize", 8)
         self.ticks_rotation = kwargs.get("ticks_rotation", 0)
 
-    def on_correction_loop_entry(self, results: Sequence[ScanResults], fit: str, correction: str):
+    def on_correction_loop_entry(self, results: OneOrMany[ScanResults], fit: str, correction: str):
         """
         on_correction_loop_entry
         """
         plt.clf()
 
-    def on_detector_loop(self, i, results: Sequence[ScanResults], fit: str, correction: str, detector: str):
+    def on_detector_loop(self, i, results: OneOrMany[ScanResults], fit: str, correction: str, detector: str):
         """
         on_detector_loop
         """
+        assert isinstance(results, list)
         x_values = np.arange(1, len(results)+1)
         y_values = np.empty(len(results))
         y_errors = np.empty(len(results))
@@ -58,10 +49,11 @@ class PlotStrategy:
             markersize=self.markersize
         )
 
-    def on_correction_loop_exit(self, results: Sequence[ScanResults], fit: str, correction: str):
+    def on_correction_loop_exit(self, results: OneOrMany[ScanResults], fit: str, correction: str):
         """
         on_correction_loop_exit
         """
+        assert isinstance(results, list)
         title = TitleBuilder() \
                 .set_fit(fit) \
                 .set_info(self.quantity_latex) \
@@ -83,35 +75,22 @@ class PlotStrategy:
         plt.savefig(path/file)
 
 
-class SeparatePlotStrategy(PlotStrategy):
+class EvoSeparatePlotStrategy(PlotStrategy):
     def __init__(self, quantity: str, error: str, quantity_latex: str = "", **kwargs):
-        self.context: Dict[str, Any] = {}
+        super().__init__(**kwargs)
         self.quantity = quantity
         self.error = error
         self.quantity_latex = quantity_latex if quantity_latex else quantity
 
-        self.xlabel = kwargs.get("xlabel", "Scan Name")
-        self.legend_loc = kwargs.get("legend_loc", "best")
-        self.output_dir: Path = kwargs.get("output_dir", Path("."))
-        if not isinstance(self.output_dir, Path):
-            self.output_dir = Path(self.output_dir)
-        self.output_dir = self.output_dir/"plots"/"evo"
-        self.fmt = kwargs.get("fmt", "o")
-        self.legend_fontsize = kwargs.get("legend_fontsize", 12)
-        self.colors = kwargs.get("colors", ["k", "r", "b", "g", "m", "c", "y"])
-        self.markersize = kwargs.get("markersize", 5)
+        self.output_dir = self.output_dir/"evo"
         self.ticks_fontsize = kwargs.get("ticks_fontsize", 8)
         self.ticks_rotation = kwargs.get("ticks_rotation", 0)
 
-    def on_correction_loop_entry(self, results: Sequence[ScanResults], fit: str, correction: str):
-        """
-        on_correction_loop_entry
-        """
-
-    def on_detector_loop(self, i, results: Sequence[ScanResults], fit: str, correction: str, detector: str):
+    def on_detector_loop(self, i, results: OneOrMany[ScanResults], fit: str, correction: str, detector: str):
         """
         on_detector_loop
         """
+        assert isinstance(results, list)
         plt.clf()
         x_values = np.arange(1, len(results)+1)
         y_values = np.empty(len(results))
@@ -151,8 +130,3 @@ class SeparatePlotStrategy(PlotStrategy):
 
         file = f"{correction}.png"
         plt.savefig(path/file)
-
-    def on_correction_loop_exit(self, results: Sequence[ScanResults], fit: str, correction: str):
-        """
-        on_correction_loop_exit
-        """

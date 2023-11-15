@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 from plotting_vdm.scan_results import ScanResults
+from plotting_vdm._typing import OneOrMany
 from plotting_vdm.utils.title_builder import TitleBuilder
 from plotting_vdm.utils.functions import match_bcids
 from .base import PlotStrategy
@@ -9,7 +10,7 @@ from .base import PlotStrategy
 
 class CorrPlotStrategy(PlotStrategy):
     def __init__(self, base_correction:str, quantity: str, error: str, quantity_latex: str = "", **kwargs):
-        super().__init__()
+        super().__init__(**kwargs)
         self.base_correction = base_correction
         self.quantity = quantity
         self.error = error
@@ -17,7 +18,7 @@ class CorrPlotStrategy(PlotStrategy):
 
         self.output_dir = self.output_dir/"corr"
 
-    def on_correction_loop_entry(self, results: ScanResults, fit: str, correction: str) -> bool:
+    def on_correction_loop_entry(self, results: OneOrMany[ScanResults], fit: str, correction: str) -> bool:
         if correction == "no_corr":
             return True
 
@@ -27,7 +28,7 @@ class CorrPlotStrategy(PlotStrategy):
 
         return False
 
-    def on_detector_loop(self, i, results: ScanResults, fit: str, correction: str, detector: str):
+    def on_detector_loop(self, i, results: OneOrMany[ScanResults], fit: str, correction: str, detector: str):
         data = results.filter_results_by(
             fit, correction, detector, quality="good"
         ).set_index("BCID")
@@ -52,7 +53,7 @@ class CorrPlotStrategy(PlotStrategy):
             markersize=self.markersize,
         )
 
-    def on_correction_loop_exit(self, results: ScanResults, fit, correction):
+    def on_correction_loop_exit(self, results: OneOrMany[ScanResults], fit: str, correction: str):
         title = TitleBuilder() \
                 .set_fit(fit) \
                 .set_correction(correction) \

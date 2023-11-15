@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 from plotting_vdm.scan_results import ScanResults
+from plotting_vdm._typing import OneOrMany
 from plotting_vdm.utils.title_builder import TitleBuilder
 from plotting_vdm.utils.functions import match_bcids
 from .base import PlotStrategy
@@ -9,7 +10,7 @@ from .base import PlotStrategy
 
 class RatioPlotStrategy(PlotStrategy):
     def __init__(self, reference_detector:str, quantity: str, error: str, quantity_latex: str = "", **kwargs):
-        super().__init__()
+        super().__init__(**kwargs)
         self.reference_detector = reference_detector
         self.quantity = quantity
         self.error = error
@@ -17,12 +18,12 @@ class RatioPlotStrategy(PlotStrategy):
 
         self.output_dir = self.output_dir/"ratio"
 
-    def on_correction_loop_entry(self, results: ScanResults, fit: str, correction: str) -> bool:
+    def on_correction_loop_entry(self, results: OneOrMany[ScanResults], fit: str, correction: str) -> bool:
         plt.clf()
 
         return False
 
-    def on_detector_loop(self, i, results: ScanResults, fit: str, correction: str, detector: str):
+    def on_detector_loop(self, i, results: OneOrMany[ScanResults], fit: str, correction: str, detector: str):
         if detector == self.reference_detector:
             return
 
@@ -50,7 +51,7 @@ class RatioPlotStrategy(PlotStrategy):
             markersize=self.markersize,
         )
 
-    def on_correction_loop_exit(self, results: ScanResults, fit, correction):
+    def on_correction_loop_exit(self, results: OneOrMany[ScanResults], fit, correction):
         title = TitleBuilder() \
                 .set_fit(fit) \
                 .set_correction(correction) \

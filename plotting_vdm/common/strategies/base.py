@@ -2,14 +2,14 @@ from typing import Dict, Any
 from pathlib import Path
 
 from plotting_vdm.scan_results import ScanResults
-
+from plotting_vdm._typing import OneOrMany
 
 
 class PlotStrategy:
     def __init__(self, **kwargs):
         self.context: Dict[str, Any] = {}
 
-        self.xlabel = kwargs.get("xlabel", "BCID")
+        self.xlabel = kwargs.get("xlabel", "")
         self.legend_loc = kwargs.get("legend_loc", "best")
         self.output_dir: Path = kwargs.get("output_dir", Path("."))
         if not isinstance(self.output_dir, Path):
@@ -20,18 +20,18 @@ class PlotStrategy:
         self.colors = kwargs.get("colors", ["k", "r", "b", "g", "m", "c", "y"])
         self.markersize = kwargs.get("markersize", 5)
 
-    def on_correction_loop_entry(self, results: ScanResults, fit: str, correction: str) -> bool:
+    def on_correction_loop_entry(self, results: OneOrMany[ScanResults], fit: str, correction: str) -> bool:
         """
         on_correction_loop_entry
         """
         return False
 
-    def on_detector_loop(self, i, results: ScanResults, fit: str, correction: str, detector: str):
+    def on_detector_loop(self, i, results: OneOrMany[ScanResults], fit: str, correction: str, detector: str):
         """
         on_detector_loop
         """
 
-    def on_correction_loop_exit(self, results: ScanResults, fit: str, correction: str):
+    def on_correction_loop_exit(self, results: OneOrMany[ScanResults], fit: str, correction: str):
         """
         on_correction_loop_exit
         """
