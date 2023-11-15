@@ -1,6 +1,5 @@
 from pathlib import Path
 from typing import Dict, Any
-from dataclasses import dataclass, field
 
 import numpy as np
 from scan_results import ScanResults
@@ -12,7 +11,7 @@ import matplotlib.pyplot as plt
 
 class PlotStrategy:
     def __init__(self, **kwargs):
-        self.context: Dict[str, Any] = field(default_factory=dict)
+        self.context: Dict[str, Any] = {}
 
         self.xlabel = kwargs.get("xlabel", "BCID")
         self.legend_loc = kwargs.get("legend_loc", "best")
@@ -22,7 +21,7 @@ class PlotStrategy:
         self.output_dir = self.output_dir/"plots"
         self.fmt = kwargs.get("fmt", "o")
         self.legend_fontsize = kwargs.get("legend_fontsize", 12)
-        self.colors = kwargs.get("colors", ["k", "r", "g", "b", "m", "c", "y"])
+        self.colors = kwargs.get("colors", ["k", "r", "b", "g", "m", "c", "y"])
         self.markersize = kwargs.get("markersize", 5)
 
     def on_correction_loop_entry(self, results: ScanResults, fit: str, correction: str) -> bool:
@@ -318,107 +317,7 @@ if __name__ == "__main__":
     scan = ScanResults(Path("analysed_data/8381_11Nov22_114759_11Nov22_121408"), fits=["SG", "DG"])
     plotter = ScanPlotter()
 
-    # strategy = NormalPlotStrategy(
-    #     quantity="CapSigma_X",
-    #     error="CapSigmaErr_X",
-    #     quantity_latex=r"$\Sigma_X$",
-    #     legend_fontsize=10,
-    # )
-    # plotter.plot_strategy = strategy
-    # plotter(scan)
-
-    # strategy = NormalPlotStrategy(
-    #     quantity="CapSigma_Y",
-    #     error="CapSigmaErr_Y",
-    #     quantity_latex=r"$\Sigma_Y$",
-    # )
-    # plotter.plot_strategy = strategy
-    # plotter(scan)
-
-    # strategy = NormalSeparatePlotStrategy(
-    #     quantity="CapSigma_X",
-    #     error="CapSigmaErr_X",
-    #     quantity_latex=r"$\Sigma_X$",
-    # )
-    # plotter.plot_strategy = strategy
-    # plotter(scan)
-
-    # strategy = NormalSeparatePlotStrategy(
-    #     quantity="CapSigma_Y",
-    #     error="CapSigmaErr_Y",
-    #     quantity_latex=r"$\Sigma_Y$",
-    # )
-    # plotter.plot_strategy = strategy
-    # plotter(scan)
-
-    # strategy = NormalPlotStrategy(
-    #     quantity="peak_X",
-    #     error="peakErr_X",
-    #     quantity_latex=r"$\mathrm{Peak}_X$",
-    # )
-    # plotter.plot_strategy = strategy
-    # plotter(scan)
-
-    # strategy = NormalPlotStrategy(
-    #     quantity="peak_Y",
-    #     error="peakErr_Y",
-    #     quantity_latex=r"$\mathrm{Peak}_Y$",
-    # )
-    # plotter.plot_strategy = strategy
-    # plotter(scan)
-
-    # strategy = NormalSeparatePlotStrategy(
-    #     quantity="peak_X",
-    #     error="peakErr_X",
-    #     quantity_latex=r"$\mathrm{Peak}_X$",
-    # )
-    # plotter.plot_strategy = strategy
-    # plotter(scan)
-
-    # strategy = NormalSeparatePlotStrategy(
-    #     quantity="peak_Y",
-    #     error="peakErr_Y",
-    #     quantity_latex=r"$\mathrm{Peak}_Y$",
-    # )
-    # plotter.plot_strategy = strategy
-    # plotter(scan)
-
-    # strategy = NormalPlotStrategy(
-    #     quantity="xsec",
-    #     error="xsecErr",
-    #     quantity_latex=r"$\sigma_{\mathrm{vis}}$",
-    # )
-    # plotter.plot_strategy = strategy
-    # plotter(scan)
-
-    # strategy = NormalSeparatePlotStrategy(
-    #     quantity="xsec",
-    #     error="xsecErr",
-    #     quantity_latex=r"$\sigma_{\mathrm{vis}}$",
-    # )
-    # plotter.plot_strategy = strategy
-    # plotter(scan)
-
-    # strategy = RatioPlotStrategy(
-    #     reference_detector="HFOC",
-    #     quantity="CapSigma_X",
-    #     error="CapSigmaErr_X",
-    #     quantity_latex=r"$\Sigma_X$",
-    # )
-    # plotter.plot_strategy = strategy
-    # plotter(scan)
-
-    # strategy = RatioPlotStrategy(
-    #     reference_detector="HFOC",
-    #     quantity="CapSigma_Y",
-    #     error="CapSigmaErr_Y",
-    #     quantity_latex=r"$\Sigma_Y$",
-    # )
-    # plotter.plot_strategy = strategy
-    # plotter(scan)
-
-    strategy = CorrPlotStrategy(
-        base_correction="Background",
+    strategy = NormalPlotStrategy(
         quantity="CapSigma_X",
         error="CapSigmaErr_X",
         quantity_latex=r"$\Sigma_X$",
@@ -426,8 +325,7 @@ if __name__ == "__main__":
     plotter.plot_strategy = strategy
     plotter(scan)
 
-    strategy = CorrPlotStrategy(
-        base_correction="Background",
+    strategy = NormalPlotStrategy(
         quantity="CapSigma_Y",
         error="CapSigmaErr_Y",
         quantity_latex=r"$\Sigma_Y$",
@@ -435,29 +333,129 @@ if __name__ == "__main__":
     plotter.plot_strategy = strategy
     plotter(scan)
 
-    strategy = CorrPlotStrategy(
-        base_correction="Background",
+    # strategy = NormalSeparatePlotStrategy(
+    #     quantity="CapSigma_X",
+    #     error="CapSigmaErr_X",
+    #     quantity_latex=r"$\Sigma_X$",
+    # )
+    # plotter.plot_strategy = strategy
+    # plotter(scan)
+
+    # strategy = NormalSeparatePlotStrategy(
+    #     quantity="CapSigma_Y",
+    #     error="CapSigmaErr_Y",
+    #     quantity_latex=r"$\Sigma_Y$",
+    # )
+    # plotter.plot_strategy = strategy
+    # plotter(scan)
+
+    strategy = NormalPlotStrategy(
         quantity="peak_X",
         error="peakErr_X",
-        quantity_latex=r"$\Sigma_X$",
+        quantity_latex=r"$\mathrm{Peak}_X$",
     )
     plotter.plot_strategy = strategy
     plotter(scan)
 
-    strategy = CorrPlotStrategy(
-        base_correction="Background",
+    strategy = NormalPlotStrategy(
         quantity="peak_Y",
         error="peakErr_Y",
-        quantity_latex=r"$\Sigma_Y$",
+        quantity_latex=r"$\mathrm{Peak}_Y$",
     )
     plotter.plot_strategy = strategy
     plotter(scan)
 
-    strategy = CorrPlotStrategy(
-        base_correction="Background",
+    # strategy = NormalSeparatePlotStrategy(
+    #     quantity="peak_X",
+    #     error="peakErr_X",
+    #     quantity_latex=r"$\mathrm{Peak}_X$",
+    # )
+    # plotter.plot_strategy = strategy
+    # plotter(scan)
+
+    # strategy = NormalSeparatePlotStrategy(
+    #     quantity="peak_Y",
+    #     error="peakErr_Y",
+    #     quantity_latex=r"$\mathrm{Peak}_Y$",
+    # )
+    # plotter.plot_strategy = strategy
+    # plotter(scan)
+
+    strategy = NormalPlotStrategy(
         quantity="xsec",
         error="xsecErr",
         quantity_latex=r"$\sigma_{\mathrm{vis}}$",
     )
     plotter.plot_strategy = strategy
     plotter(scan)
+
+    # strategy = NormalSeparatePlotStrategy(
+    #     quantity="xsec",
+    #     error="xsecErr",
+    #     quantity_latex=r"$\sigma_{\mathrm{vis}}$",
+    # )
+    # plotter.plot_strategy = strategy
+    # plotter(scan)
+
+    # strategy = RatioPlotStrategy(
+    #     reference_detector="HFOC",
+    #     quantity="CapSigma_X",
+    #     error="CapSigmaErr_X",
+    #     quantity_latex=r"$\Sigma_X$",
+    # )
+    # plotter.plot_strategy = strategy
+    # plotter(scan)
+
+    # strategy = RatioPlotStrategy(
+    #     reference_detector="HFOC",
+    #     quantity="CapSigma_Y",
+    #     error="CapSigmaErr_Y",
+    #     quantity_latex=r"$\Sigma_Y$",
+    # )
+    # plotter.plot_strategy = strategy
+    # plotter(scan)
+
+    # strategy = CorrPlotStrategy(
+    #     base_correction="Background",
+    #     quantity="CapSigma_X",
+    #     error="CapSigmaErr_X",
+    #     quantity_latex=r"$\Sigma_X$",
+    # )
+    # plotter.plot_strategy = strategy
+    # plotter(scan)
+
+    # strategy = CorrPlotStrategy(
+    #     base_correction="Background",
+    #     quantity="CapSigma_Y",
+    #     error="CapSigmaErr_Y",
+    #     quantity_latex=r"$\Sigma_Y$",
+    # )
+    # plotter.plot_strategy = strategy
+    # plotter(scan)
+
+    # strategy = CorrPlotStrategy(
+    #     base_correction="Background",
+    #     quantity="peak_X",
+    #     error="peakErr_X",
+    #     quantity_latex=r"$\Sigma_X$",
+    # )
+    # plotter.plot_strategy = strategy
+    # plotter(scan)
+
+    # strategy = CorrPlotStrategy(
+    #     base_correction="Background",
+    #     quantity="peak_Y",
+    #     error="peakErr_Y",
+    #     quantity_latex=r"$\Sigma_Y$",
+    # )
+    # plotter.plot_strategy = strategy
+    # plotter(scan)
+
+    # strategy = CorrPlotStrategy(
+    #     base_correction="Background",
+    #     quantity="xsec",
+    #     error="xsecErr",
+    #     quantity_latex=r"$\sigma_{\mathrm{vis}}$",
+    # )
+    # plotter.plot_strategy = strategy
+    # plotter(scan)
