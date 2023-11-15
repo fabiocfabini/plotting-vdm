@@ -49,6 +49,7 @@ class NormalPlotStrategy(PlotStrategy):
         self.fmt = kwargs.get("fmt", "o")
         self.legend_fontsize = kwargs.get("legend_fontsize", 12)
         self.colors = kwargs.get("colors", ["k", "r", "g", "b", "m", "c", "y"])
+        self.markersize = kwargs.get("markersize", 5)
 
     def on_correction_loop_entry(self, results: ScanResults, fit, correction) -> bool:
         plt.clf()
@@ -68,6 +69,7 @@ class NormalPlotStrategy(PlotStrategy):
             label=detector,
             fmt=self.fmt,
             color=self.colors[i],
+            markersize=self.markersize,
         )
 
     def on_correction_loop_exit(self, results: ScanResults, fit, correction):
@@ -104,6 +106,7 @@ class NormalSeparatePlotStrategy(PlotStrategy):
         self.output_dir = self.output_dir/"plots"/"normal"
         self.fmt = kwargs.get("fmt", "o")
         self.color = kwargs.get("color", "b")
+        self.markersize = kwargs.get("markersize", 5)
 
     def on_detector_loop(self, i, results: ScanResults, fit, correction, detector):
         plt.clf()
@@ -118,6 +121,7 @@ class NormalSeparatePlotStrategy(PlotStrategy):
             yerr=data[self.error],
             fmt=self.fmt,
             color=self.color,
+            markersize=self.markersize,
         )
 
         title = TitleBuilder() \
@@ -156,6 +160,7 @@ class RatioPlotStrategy(PlotStrategy):
         self.fmt = kwargs.get("fmt", "o")
         self.color = kwargs.get("color", ["k", "r", "b", "g", "m", "c", "y"])
         self.legend_fontsize = kwargs.get("legend_fontsize", 12)
+        self.markersize = kwargs.get("markersize", 5)
 
     def on_correction_loop_entry(self, results: ScanResults, fit: str, correction: str) -> bool:
         plt.clf()
@@ -188,7 +193,8 @@ class RatioPlotStrategy(PlotStrategy):
             yerr=yerr,
             label=f"{detector}/{self.reference_detector}",
             fmt=self.fmt,
-            color=self.color[i]
+            color=self.color[i],
+            markersize=self.markersize,
         )
 
     def on_correction_loop_exit(self, results: ScanResults, fit, correction):
@@ -240,21 +246,21 @@ if __name__ == "__main__":
     scan = ScanResults(Path("analysed_data/8381_11Nov22_114759_11Nov22_121408"), fits=["SG", "DG"])
     plotter = ScanPlotter()
 
-    # strategy = NormalPlotStrategy(
-    #     quantity="CapSigma_X",
-    #     error="CapSigmaErr_X",
-    #     quantity_latex=r"$\Sigma_X$",
-    # )
-    # plotter.plot_strategy = strategy
-    # plotter(scan)
+    strategy = NormalPlotStrategy(
+        quantity="CapSigma_X",
+        error="CapSigmaErr_X",
+        quantity_latex=r"$\Sigma_X$",
+    )
+    plotter.plot_strategy = strategy
+    plotter(scan)
 
-    # strategy = NormalPlotStrategy(
-    #     quantity="CapSigma_Y",
-    #     error="CapSigmaErr_Y",
-    #     quantity_latex=r"$\Sigma_Y$",
-    # )
-    # plotter.plot_strategy = strategy
-    # plotter(scan)
+    strategy = NormalPlotStrategy(
+        quantity="CapSigma_Y",
+        error="CapSigmaErr_Y",
+        quantity_latex=r"$\Sigma_Y$",
+    )
+    plotter.plot_strategy = strategy
+    plotter(scan)
 
     strategy = NormalSeparatePlotStrategy(
         quantity="CapSigma_X",
@@ -272,21 +278,21 @@ if __name__ == "__main__":
     plotter.plot_strategy = strategy
     plotter(scan)
 
-    # strategy = NormalPlotStrategy(
-    #     quantity="peak_X",
-    #     error="peakErr_X",
-    #     quantity_latex=r"$\mathrm{Peak}_X$",
-    # )
-    # plotter.plot_strategy = strategy
-    # plotter(scan)
+    strategy = NormalPlotStrategy(
+        quantity="peak_X",
+        error="peakErr_X",
+        quantity_latex=r"$\mathrm{Peak}_X$",
+    )
+    plotter.plot_strategy = strategy
+    plotter(scan)
 
-    # strategy = NormalPlotStrategy(
-    #     quantity="peak_Y",
-    #     error="peakErr_Y",
-    #     quantity_latex=r"$\mathrm{Peak}_Y$",
-    # )
-    # plotter.plot_strategy = strategy
-    # plotter(scan)
+    strategy = NormalPlotStrategy(
+        quantity="peak_Y",
+        error="peakErr_Y",
+        quantity_latex=r"$\mathrm{Peak}_Y$",
+    )
+    plotter.plot_strategy = strategy
+    plotter(scan)
 
     strategy = NormalSeparatePlotStrategy(
         quantity="peak_X",
@@ -304,18 +310,36 @@ if __name__ == "__main__":
     plotter.plot_strategy = strategy
     plotter(scan)
 
-    # strategy = NormalPlotStrategy(
-    #     quantity="xsec",
-    #     error="xsecErr",
-    #     quantity_latex=r"$\sigma_{\mathrm{vis}}$",
-    # )
-    # plotter.plot_strategy = strategy
-    # plotter(scan)
+    strategy = NormalPlotStrategy(
+        quantity="xsec",
+        error="xsecErr",
+        quantity_latex=r"$\sigma_{\mathrm{vis}}$",
+    )
+    plotter.plot_strategy = strategy
+    plotter(scan)
 
     strategy = NormalSeparatePlotStrategy(
         quantity="xsec",
         error="xsecErr",
         quantity_latex=r"$\sigma_{\mathrm{vis}}$",
+    )
+    plotter.plot_strategy = strategy
+    plotter(scan)
+
+    strategy = RatioPlotStrategy(
+        reference_detector="HFOC",
+        quantity="CapSigma_X",
+        error="CapSigmaErr_X",
+        quantity_latex=r"$\Sigma_X$",
+    )
+    plotter.plot_strategy = strategy
+    plotter(scan)
+
+    strategy = RatioPlotStrategy(
+        reference_detector="HFOC",
+        quantity="CapSigma_Y",
+        error="CapSigmaErr_Y",
+        quantity_latex=r"$\Sigma_Y$",
     )
     plotter.plot_strategy = strategy
     plotter(scan)
