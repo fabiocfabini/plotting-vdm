@@ -58,7 +58,7 @@ class NormalPlotStrategy(PlotStrategy):
         return False
 
     def on_detector_loop(self, i, results: ScanResults, fit, correction, detector):
-        data = results.results[fit].query(f"correction == '{correction}' and detector == '{detector}'")
+        data = results.filter_results_by(fit, correction, detector, quality="good")
 
 
         plt.errorbar(
@@ -110,7 +110,7 @@ class NormalSeparatePlotStrategy(PlotStrategy):
         plt.style.use("classic")
         plt.rcParams["legend.numpoints"] = 1
 
-        data = results.results[fit].query(f"correction == '{correction}' and detector == '{detector}'")
+        data = results.filter_results_by(fit, correction, detector, quality="good")
 
         plt.errorbar(
             data["BCID"],
@@ -240,21 +240,82 @@ if __name__ == "__main__":
     scan = ScanResults(Path("analysed_data/8381_11Nov22_114759_11Nov22_121408"), fits=["SG", "DG"])
     plotter = ScanPlotter()
 
-    strategy = NormalPlotStrategy(
-        reference_detector="HFOC",
+    # strategy = NormalPlotStrategy(
+    #     quantity="CapSigma_X",
+    #     error="CapSigmaErr_X",
+    #     quantity_latex=r"$\Sigma_X$",
+    # )
+    # plotter.plot_strategy = strategy
+    # plotter(scan)
+
+    # strategy = NormalPlotStrategy(
+    #     quantity="CapSigma_Y",
+    #     error="CapSigmaErr_Y",
+    #     quantity_latex=r"$\Sigma_Y$",
+    # )
+    # plotter.plot_strategy = strategy
+    # plotter(scan)
+
+    strategy = NormalSeparatePlotStrategy(
         quantity="CapSigma_X",
         error="CapSigmaErr_X",
-        quantity_latex=r"$\Sigma_X$"
+        quantity_latex=r"$\Sigma_X$",
     )
     plotter.plot_strategy = strategy
     plotter(scan)
 
-    strategy = NormalPlotStrategy(
-        reference_detector="HFOC",
+    strategy = NormalSeparatePlotStrategy(
         quantity="CapSigma_Y",
         error="CapSigmaErr_Y",
-        quantity_latex=r"$\Sigma_Y$"
+        quantity_latex=r"$\Sigma_Y$",
     )
-    plotter = ScanPlotter(strategy)
+    plotter.plot_strategy = strategy
+    plotter(scan)
+
+    # strategy = NormalPlotStrategy(
+    #     quantity="peak_X",
+    #     error="peakErr_X",
+    #     quantity_latex=r"$\mathrm{Peak}_X$",
+    # )
+    # plotter.plot_strategy = strategy
+    # plotter(scan)
+
+    # strategy = NormalPlotStrategy(
+    #     quantity="peak_Y",
+    #     error="peakErr_Y",
+    #     quantity_latex=r"$\mathrm{Peak}_Y$",
+    # )
+    # plotter.plot_strategy = strategy
+    # plotter(scan)
+
+    strategy = NormalSeparatePlotStrategy(
+        quantity="peak_X",
+        error="peakErr_X",
+        quantity_latex=r"$\mathrm{Peak}_X$",
+    )
+    plotter.plot_strategy = strategy
+    plotter(scan)
+
+    strategy = NormalSeparatePlotStrategy(
+        quantity="peak_Y",
+        error="peakErr_Y",
+        quantity_latex=r"$\mathrm{Peak}_Y$",
+    )
+    plotter.plot_strategy = strategy
+    plotter(scan)
+
+    # strategy = NormalPlotStrategy(
+    #     quantity="xsec",
+    #     error="xsecErr",
+    #     quantity_latex=r"$\sigma_{\mathrm{vis}}$",
+    # )
+    # plotter.plot_strategy = strategy
+    # plotter(scan)
+
+    strategy = NormalSeparatePlotStrategy(
+        quantity="xsec",
+        error="xsecErr",
+        quantity_latex=r"$\sigma_{\mathrm{vis}}$",
+    )
     plotter.plot_strategy = strategy
     plotter(scan)
