@@ -1,5 +1,5 @@
 from plotting_vdm.scan_results import ScanResults
-from plotting_vdm.scan.strategies.base import PlotStrategy
+from .strategies.base import PlotStrategy
 
 
 
