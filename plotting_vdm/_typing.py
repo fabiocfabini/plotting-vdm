@@ -1,4 +1,4 @@
-from typing import List, Union, TypeVar
+from typing import Sequence, Union, TypeVar
 
 T = TypeVar("T")
-OneOrMany = Union[T, List[T]]
+OneOrMany = Union[T, Sequence[T]]
