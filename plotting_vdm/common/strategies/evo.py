@@ -126,6 +126,7 @@ class EvoSeparatePlotStrategy(PlotStrategy):
         plt.xlabel(self.xlabel)
         plt.ylabel(self.quantity_latex)
         plt.xticks(range(1, len(results)+1), ticks, rotation=self.ticks_rotation, fontsize=self.ticks_fontsize)
+        plt.ticklabel_format(useOffset=False, axis="y")
 
         path = self.output_dir/self.quantity/"seperate"/fit/detector
         path.mkdir(parents=True, exist_ok=True)
