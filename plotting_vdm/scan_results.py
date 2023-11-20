@@ -85,7 +85,7 @@ class ScanResults:
         "PLT", "BCM1F", "BCM1FUTCA", "HFET", "HFOC"
     )
     _correction_prefixes: ClassVar[Tuple[str, ...]] = (
-        "noCorr", "Background"
+        "noCorr", "Background", "BeamBeam"
     )  # what other correction prefixes are there?
 
     def __init__(self,
