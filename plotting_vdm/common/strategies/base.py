@@ -44,7 +44,7 @@ class PlotStrategy:
     colors: list = field(default_factory=lambda: ["k", "r", "b", "g", "m", "c", "y"])
     markersize: int = 5
 
-    def __init__(self, **kwargs):
+    def __post_init__(self, **kwargs):
         if not isinstance(self.output_dir, Path):
             self.output_dir = Path(self.output_dir)
         self.output_dir = self.output_dir/"plots"
