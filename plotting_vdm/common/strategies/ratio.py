@@ -29,10 +29,10 @@ class RatioPlotStrategy(PlotStrategy):
             return
 
         data = results.filter_results_by(
-            fit, correction, detector, quality="good"
+            fit, correction, detector, quality=self.data_quality
         ).set_index("BCID")
         ref = results.filter_results_by(
-            fit, correction, self.reference_detector, quality="good"
+            fit, correction, self.reference_detector, quality=self.data_quality
         ).set_index("BCID")
         data, ref = match_bcids(data, ref)
 

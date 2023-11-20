@@ -22,7 +22,7 @@ class NormalPlotStrategy(PlotStrategy):
         return False
 
     def on_detector_loop(self, i, results: OneOrMany[ScanResults], fit, correction, detector):
-        data = results.filter_results_by(fit, correction, detector, quality="good")
+        data = results.filter_results_by(fit, correction, detector, quality=self.data_quality)
 
         plt.errorbar(
             data["BCID"],
@@ -68,7 +68,7 @@ class NormalSeparatePlotStrategy(PlotStrategy):
     def on_detector_loop(self, i, results: OneOrMany[ScanResults], fit, correction, detector):
         plt.clf()
 
-        data = results.filter_results_by(fit, correction, detector, quality="good")
+        data = results.filter_results_by(fit, correction, detector, quality=self.data_quality)
 
         plt.errorbar(
             data["BCID"],

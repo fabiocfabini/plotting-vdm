@@ -47,7 +47,7 @@ class EvoPlotStrategy(PlotStrategy):
         y_errors = np.empty(len(results))
 
         for j, result in enumerate(results):
-            data = result.filter_results_by(fit, correction, detector, quality="good")
+            data = result.filter_results_by(fit, correction, detector, quality=self.data_quality)
 
             y_values[j] = data[self.quantity].mean()
             y_errors[j] = data[self.quantity].std()
@@ -113,7 +113,7 @@ class EvoSeparatePlotStrategy(PlotStrategy):
         y_errors = np.empty(len(results))
 
         for j, result in enumerate(results):
-            data = result.filter_results_by(fit, correction, detector, quality="good")
+            data = result.filter_results_by(fit, correction, detector, quality=self.data_quality)
 
             y_values[j] = np.average(data[self.quantity], weights=1/data[self.error]**2)
             y_errors[j] = np.sqrt(np.average((data[self.quantity]-y_values[j])**2, weights=1/data[self.error]**2))

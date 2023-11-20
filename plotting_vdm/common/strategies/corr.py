@@ -31,10 +31,10 @@ class CorrPlotStrategy(PlotStrategy):
 
     def on_detector_loop(self, i, results: OneOrMany[ScanResults], fit: str, correction: str, detector: str):
         data = results.filter_results_by(
-            fit, correction, detector, quality="good"
+            fit, correction, detector, quality=self.data_quality
         ).set_index("BCID")
         ref = results.filter_results_by(
-            fit, self.context["reference"], detector, quality="good"
+            fit, self.context["reference"], detector, quality=self.data_quality
         ).set_index("BCID")
         data, ref = match_bcids(data, ref)
 
