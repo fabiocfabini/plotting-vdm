@@ -1,4 +1,3 @@
-from dataclasses import dataclass, field
 from typing import Dict, Any
 from pathlib import Path
 
@@ -6,7 +5,6 @@ from plotting_vdm.scan_results import ScanResults
 from plotting_vdm._typing import OneOrMany
 
 
-@dataclass
 class PlotStrategy:
     """Base class for plot strategies.
     A class that inherits from this class can be used to define a custom plotting strategy.
@@ -35,19 +33,19 @@ class PlotStrategy:
     markersize : int, default: 5
         Size of the markers.
     """
-    context: Dict[str, Any] = field(default_factory=dict)
-    xlabel: str = ""
-    legend_loc: str = "best"
-    output_dir: Path = Path(".")
-    fmt: str = "o"
-    legend_fontsize: int = 12
-    colors: list = field(default_factory=lambda: ["k", "r", "b", "g", "m", "c", "y"])
-    markersize: int = 5
 
-    def __post_init__(self, **kwargs):
+    def __init__(self, **kwargs):
+        self.context: Dict[str, Any] = {}
+        self.xlabel: str = kwargs.get("xlabel", "")
+        self.legend_loc: str = kwargs.get("legend_loc", "best")
+        self.output_dir: Path = kwargs.get("output_dir", Path("."))
         if not isinstance(self.output_dir, Path):
             self.output_dir = Path(self.output_dir)
         self.output_dir = self.output_dir/"plots"
+        self.fmt: str = kwargs.get("fmt", "o")
+        self.legend_fontsize: int = kwargs.get("legend_fontsize", 12)
+        self.colors: list = kwargs.get("colors", ["k", "r", "b", "g", "m", "c", "y"])
+        self.markersize: int = kwargs.get("markersize", 5)
 
     def on_correction_loop_entry(self, results: OneOrMany[ScanResults], fit: str, correction: str) -> bool:
         """
