@@ -152,25 +152,34 @@ if __name__ == "__main__":
     plotter.plot_strategy = strategy
     plotter(scan)
 
-    all_scans = [ScanResults(path, fits=["SG", "DG"]) for path in Path("analysed_data").glob("8381*")]
-    plotter = VdMPlotter()
-    all_scans.sort(key=lambda s: s.start)
-    name = ["vdM1", "BI1", "BI2", "vdM2", "vdM3", "vdM4"]
-    for name, scan in zip(name, all_scans):
-        scan.name = name
+    # fill_8999 = {
+    #     # "8999_28Jun23_222504_28Jun23_223127": "emit1",
+    #     "8999_28Jun23_230143_28Jun23_232943": "VdM1",
+    #     # "8999_28Jun23_235337_29Jun23_001656": "ds1",
+    #     "8999_29Jun23_004658_29Jun23_011220": "BI1",
+    #     "8999_29Jun23_013851_29Jun23_020425": "BI2",
+    #     "8999_29Jun23_023227_29Jun23_025502": "VdM2",
+    #     "8999_29Jun23_073830_29Jun23_080352": "VdM3",
+    #     # "8999_29Jun23_083200_29Jun23_085852": "os1",
+    #     "8999_29Jun23_092415_29Jun23_094738": "VdM4",
+    #     # "8999_29Jun23_101314_29Jun23_103550": "ds2",
+    #     "8999_29Jun23_110004_29Jun23_112226": "VdM5",
+    #     # "8999_29Jun23_114555_29Jun23_115221": "emit2",
+    #     "8999_29Jun23_123257_29Jun23_125514": "VdM6",
+    #     # "8999_29Jun23_211111_29Jun23_211737": "emit3",
+    # }
 
-    strategy = evo.EvoPlotStrategy(
-        quantity="CapSigma_X",
-        error="CapSigmaErr_X",
-        quantity_latex=r"$\Sigma_X$",
-    )
-    plotter.plot_strategy = strategy
-    plotter(all_scans)
+    # res_path = Path("/home/fabiocfabini/cernbox/www/8999_output/analysed_data")
+    # all_scans = [ScanResults(path, fits=["DG"], name=fill_8999[path.stem]) for path in res_path.glob("8999*") if path.stem in fill_8999]
+    # plotter = VdMPlotter()
+    # all_scans.sort(key=lambda s: s.start)
 
-    strategy = evo.EvoSeparatePlotStrategy(
-        quantity="xsec",
-        error="xsecErr",
-        quantity_latex=r"$\sigma_{\mathrm{vis}}$",
-    )
-    plotter.plot_strategy = strategy
-    plotter(all_scans)
+    # strategy = evo.EvoSeparatePlotStrategy(
+    #     quantity="xsec",
+    #     error="xsecErr",
+    #     quantity_latex=r"$\sigma_{\mathrm{vis}}$",
+    #     fmt="s",
+    #     markersize=8,
+    # )
+    # plotter.plot_strategy = strategy
+    # plotter(all_scans)
