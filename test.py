@@ -169,8 +169,10 @@ if __name__ == "__main__":
         # "8999_29Jun23_211111_29Jun23_211737": "emit3",
     }
 
-    output = Path("/eos/user/f/flpereir/www/8999_output")
-    res_path = Path("/eos/user/f/flpereir/www/8999_output/analysed_data")
+    results_path = Path(input("Output path (example: /eos/user/f/flpereir/www/8999_output): "))
+    if not results_path.exists():
+        raise ValueError(f"Path {results_path} does not exist")
+    res_path = results_path/"analysed_data"
     all_scans = [ScanResults(path, fits=["DG"], name=fill_8999[path.stem]) for path in res_path.glob("8999*") if path.stem in fill_8999]
     plotter = VdMPlotter()
     all_scans.sort(key=lambda s: s.start)
@@ -182,28 +184,29 @@ if __name__ == "__main__":
         fmt="s",
         markersize=8,
         elinewidth=0.5,
-        output_dir=output,
+        output_dir=results_path,
     )
     plotter.plot_strategy = strategy
     plotter(all_scans)
+    print(f"Plots saved in {results_path/'plots'}")
 
-    output = Path("/eos/user/f/flpereir/www/8999_output_with_gs")
-    res_path = Path("/eos/user/f/flpereir/www/8999_output_with_gs/analysed_data")
-    all_scans = [ScanResults(path, fits=["DG"], name=fill_8999[path.stem]) for path in res_path.glob("8999*") if path.stem in fill_8999]
-    plotter = VdMPlotter()
-    all_scans.sort(key=lambda s: s.start)
+    # output = Path("/eos/user/f/flpereir/www/8999_output_with_gs")
+    # res_path = Path("/eos/user/f/flpereir/www/8999_output_with_gs/analysed_data")
+    # all_scans = [ScanResults(path, fits=["DG"], name=fill_8999[path.stem]) for path in res_path.glob("8999*") if path.stem in fill_8999]
+    # plotter = VdMPlotter()
+    # all_scans.sort(key=lambda s: s.start)
 
-    strategy = evo.EvoSeparatePlotStrategy(
-        quantity="xsec",
-        error="xsecErr",
-        quantity_latex=r"$\sigma_{\mathrm{vis}}$",
-        fmt="s",
-        markersize=8,
-        elinewidth=0.5,
-        output_dir=output,
-    )
-    plotter.plot_strategy = strategy
-    plotter(all_scans)
+    # strategy = evo.EvoSeparatePlotStrategy(
+    #     quantity="xsec",
+    #     error="xsecErr",
+    #     quantity_latex=r"$\sigma_{\mathrm{vis}}$",
+    #     fmt="s",
+    #     markersize=8,
+    #     elinewidth=0.5,
+    #     output_dir=output,
+    # )
+    # plotter.plot_strategy = strategy
+    # plotter(all_scans)
 
     # strategy = evo.EvoPlotStrategy(
     #     quantity="CapSigma_X",
