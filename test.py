@@ -169,7 +169,8 @@ if __name__ == "__main__":
         # "8999_29Jun23_211111_29Jun23_211737": "emit3",
     }
 
-    res_path = Path("/home/fabiocfabini/cernbox/www/8999_output/analysed_data")
+    output = Path("/eos/user/f/flpereir/www/8999_output")
+    res_path = Path("/eos/user/f/flpereir/www/8999_output/analysed_data")
     all_scans = [ScanResults(path, fits=["DG"], name=fill_8999[path.stem]) for path in res_path.glob("8999*") if path.stem in fill_8999]
     plotter = VdMPlotter()
     all_scans.sort(key=lambda s: s.start)
@@ -180,24 +181,42 @@ if __name__ == "__main__":
         quantity_latex=r"$\sigma_{\mathrm{vis}}$",
         fmt="s",
         markersize=8,
+        elinewidth=0.5,
+        output_dir=output,
     )
     plotter.plot_strategy = strategy
     plotter(all_scans)
 
-    strategy = evo.EvoPlotStrategy(
-        quantity="CapSigma_X",
-        error="CapSigmaErr_X",
-        quantity_latex=r"$\Sigma_X$",
+    output = Path("/eos/user/f/flpereir/www/8999_output_with_gs")
+    res_path = Path("/eos/user/f/flpereir/www/8999_output_with_gs/analysed_data")
+    all_scans = [ScanResults(path, fits=["DG"], name=fill_8999[path.stem]) for path in res_path.glob("8999*") if path.stem in fill_8999]
+    plotter = VdMPlotter()
+    all_scans.sort(key=lambda s: s.start)
+
+    strategy = evo.EvoSeparatePlotStrategy(
+        quantity="xsec",
+        error="xsecErr",
+        quantity_latex=r"$\sigma_{\mathrm{vis}}$",
+        fmt="s",
+        markersize=8,
+        elinewidth=0.5,
+        output_dir=output,
     )
     plotter.plot_strategy = strategy
     plotter(all_scans)
 
-    strategy = evo.EvoPlotStrategy(
-        quantity="CapSigma_Y",
-        error="CapSigmaErr_Y",
-        quantity_latex=r"$\Sigma_Y$",
-    )
-    plotter.plot_strategy = strategy
-    plotter(all_scans)
+    # strategy = evo.EvoPlotStrategy(
+    #     quantity="CapSigma_X",
+    #     error="CapSigmaErr_X",
+    #     quantity_latex=r"$\Sigma_X$",
+    # )
+    # plotter.plot_strategy = strategy
+    # plotter(all_scans)
 
-
+    # strategy = evo.EvoPlotStrategy(
+    #     quantity="CapSigma_Y",
+    #     error="CapSigmaErr_Y",
+    #     quantity_latex=r"$\Sigma_Y$",
+    # )
+    # plotter.plot_strategy = strategy
+    # plotter(all_scans)
