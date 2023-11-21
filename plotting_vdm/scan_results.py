@@ -149,15 +149,15 @@ class ScanResults:
         )
 
         if quality == "good":
-            return self._filter_good_cov_status(data, 3)
+            return self._filter_by_fit_status(data, 0)
         elif quality == "bad":
-            return self._filter_good_cov_status(data, 1)
+            return self._filter_by_fit_status(data, 1)
         elif quality == "as_is":
             return data
 
-    def _filter_good_cov_status(self, data: pd.DataFrame, cov_status: int) -> pd.DataFrame:
-        good_bcids_in_x = data[data["covStatus_X"] == cov_status]["BCID"].to_numpy()
-        good_bcids_in_y = data[data["covStatus_Y"] == cov_status]["BCID"].to_numpy()
+    def _filter_by_fit_status(self, data: pd.DataFrame, fit_status: int) -> pd.DataFrame:
+        good_bcids_in_x = data[data["fitStatus_X"] == fit_status]["BCID"].to_numpy()
+        good_bcids_in_y = data[data["fitStatus_Y"] == fit_status]["BCID"].to_numpy()
         
         good_bcids = good_bcids_in_x
 
@@ -166,8 +166,8 @@ class ScanResults:
 
         data = data[data["BCID"].isin(good_bcids)].reset_index(drop=True)
 
-        assert data["covStatus_X"].unique() == cov_status
-        assert data["covStatus_Y"].unique() == cov_status
+        assert data["fitStatus_X"].unique() == fit_status
+        assert data["fitStatus_Y"].unique() == fit_status
 
         return data
 
