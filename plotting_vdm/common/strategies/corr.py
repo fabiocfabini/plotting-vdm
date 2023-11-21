@@ -52,6 +52,7 @@ class CorrPlotStrategy(PlotStrategy):
             fmt=self.fmt,
             color=self.colors[i],
             markersize=self.markersize,
+            elinewidth=self.elinewidth,
         )
 
     def on_correction_loop_exit(self, results: OneOrMany[ScanResults], fit: str, correction: str):

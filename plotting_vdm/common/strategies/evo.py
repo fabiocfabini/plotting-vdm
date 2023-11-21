@@ -59,7 +59,8 @@ class EvoPlotStrategy(PlotStrategy):
             fmt=self.fmt,
             color=self.colors[i],
             label=detector,
-            markersize=self.markersize
+            markersize=self.markersize,
+            elinewidth=self.elinewidth,
         )
 
     def on_correction_loop_exit(self, results: OneOrMany[ScanResults], fit: str, correction: str):
@@ -125,7 +126,7 @@ class EvoSeparatePlotStrategy(PlotStrategy):
             fmt=self.fmt,
             color=self.color,
             markersize=self.markersize,
-            elinewidth=0.5,
+            elinewidth=self.elinewidth,
         )
 
         plt.xlim(0, len(results)+1)

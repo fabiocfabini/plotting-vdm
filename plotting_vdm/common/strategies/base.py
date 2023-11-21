@@ -32,6 +32,8 @@ class PlotStrategy:
         List of colors to use for the different detectors.
     markersize : int, default: 5
         Size of the markers.
+    elinewidth : float, default: 1.0
+        Width of the error bars.
     data_quality : str, default: "good"
         Data quality to use when plotting. Possible values are "good", "bad", "as_is".
     """
@@ -48,6 +50,7 @@ class PlotStrategy:
         self.legend_fontsize: int = kwargs.get("legend_fontsize", 12)
         self.colors: list = kwargs.get("colors", ["k", "r", "b", "g", "m", "c", "y"])
         self.markersize: int = kwargs.get("markersize", 5)
+        self.elinewidth: float = kwargs.get("elinewidth", 1.0)
         self.data_quality: str = kwargs.get("data_quality", "good")
 
     def on_correction_loop_entry(self, results: OneOrMany[ScanResults], fit: str, correction: str) -> bool:
