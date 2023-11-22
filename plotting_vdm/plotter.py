@@ -64,7 +64,7 @@ class VdMPlotter:
                 self.plot_strategy.on_correction_loop_exit(results, fit, correction)
 
     def _get_loop_iterables(self, results: OneOrMany[ScanResults]) -> Tuple[List[str], ...]:
-        if isinstance(results, Sequence):
+        if isinstance(results, Sequence) and not isinstance(results, str):
             result = next(iter(results))
             return result.fits, result.corrections, result.detectors
 
