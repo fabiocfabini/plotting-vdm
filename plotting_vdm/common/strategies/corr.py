@@ -93,3 +93,58 @@ class CorrPlotStrategy(PlotStrategy):
                                 Please add {base_ref_corr} to correction dictionary""")
 
         return ref_corr
+
+
+#############
+# Factories #
+#############
+
+class CapSigmaXCorrPlotStrategy(CorrPlotStrategy):
+    def __init__(self, base_correction: str, **kwargs):
+        super().__init__(
+            base_correction=base_correction,
+            quantity="CapSigma_X",
+            error="CapSigmaErr_X",
+            quantity_latex=r"$\Sigma_X$",
+            **kwargs
+        )
+
+class CapSigmaYCorrPlotStrategy(CorrPlotStrategy):
+    def __init__(self, base_correction: str, **kwargs):
+        super().__init__(
+            base_correction=base_correction,
+            quantity="CapSigma_Y",
+            error="CapSigmaErr_Y",
+            quantity_latex=r"$\Sigma_Y$",
+            **kwargs
+        )
+
+class PeakXCorrPlotStrategy(CorrPlotStrategy):
+    def __init__(self, base_correction: str, **kwargs):
+        super().__init__(
+            base_correction=base_correction,
+            quantity="peak_X",
+            error="peakErr_X",
+            quantity_latex=r"$\mathrm{Peak}_X$",
+            **kwargs
+        )
+
+class PeakYCorrPlotStrategy(CorrPlotStrategy):
+    def __init__(self, base_correction: str, **kwargs):
+        super().__init__(
+            base_correction=base_correction,
+            quantity="peak_Y",
+            error="peakErr_Y",
+            quantity_latex=r"$\mathrm{Peak}_Y$",
+            **kwargs
+        )
+
+class SigVisCorrPlotStrategy(CorrPlotStrategy):
+    def __init__(self, base_correction: str, **kwargs):
+        super().__init__(
+            base_correction=base_correction,
+            quantity="xsec",
+            error="xsecErr",
+            quantity_latex=r"$\sigma_\mathrm{vis}$",
+            **kwargs
+        )

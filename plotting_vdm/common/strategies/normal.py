@@ -98,3 +98,53 @@ class NormalSeparatePlotStrategy(PlotStrategy):
 
         file = f"{correction}.png"
         plt.savefig(path/file)
+
+
+#############
+# Factories #
+#############
+
+class CapSigmaXNormalPlotStrategy(NormalPlotStrategy):
+    def __init__(self, **kwargs):
+        super().__init__(
+            quantity="CapSigma_X",
+            error="CapSigmaErr_X",
+            quantity_latex=r"$\Sigma_X$",
+            **kwargs
+        )
+
+class CapSigmaYNormalPlotStrategy(NormalPlotStrategy):
+    def __init__(self, **kwargs):
+        super().__init__(
+            quantity="CapSigma_Y",
+            error="CapSigmaErr_Y",
+            quantity_latex=r"$\Sigma_Y$",
+            **kwargs
+        )
+
+class PeakXNormalPlotStrategy(NormalPlotStrategy):
+    def __init__(self, **kwargs):
+        super().__init__(
+            quantity="peak_X",
+            error="peakErr_X",
+            quantity_latex=r"$\mathrm{Peak}_X$",
+            **kwargs
+        )
+
+class PeakYNormalPlotStrategy(NormalPlotStrategy):
+    def __init__(self, **kwargs):
+        super().__init__(
+            quantity="peak_Y",
+            error="peakErr_Y",
+            quantity_latex=r"$\mathrm{Peak}_Y$",
+            **kwargs
+        )
+
+class SigVisNormalPlotStrategy(NormalSeparatePlotStrategy):
+    def __init__(self, **kwargs):
+        super().__init__(
+            quantity="xsec",
+            error="xsecErr",
+            quantity_latex=r"$\sigma_\mathrm{vis}$",
+            **kwargs
+        )

@@ -71,3 +71,28 @@ class RatioPlotStrategy(PlotStrategy):
 
         file = f"{correction}.png"
         plt.savefig(path/file)
+
+
+#############
+# Factories #
+#############
+
+class CapSigmaXRatioPlotStrategy(RatioPlotStrategy):
+    def __init__(self, reference_detector: str, **kwargs):
+        super().__init__(
+            reference_detector=reference_detector,
+            quantity="CapSigma_X",
+            error="CapSigmaErr_X",
+            quantity_latex=r"$\Sigma_X$",
+            **kwargs
+        )
+
+class CapSigmaYRatioPlotStrategy(RatioPlotStrategy):
+    def __init__(self, reference_detector: str, **kwargs):
+        super().__init__(
+            reference_detector=reference_detector,
+            quantity="CapSigma_Y",
+            error="CapSigmaErr_Y",
+            quantity_latex=r"$\Sigma_Y$",
+            **kwargs
+        )

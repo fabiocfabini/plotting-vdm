@@ -49,8 +49,7 @@ class EvoPlotStrategy(PlotStrategy):
         for j, result in enumerate(results):
             data = result.filter_results_by(fit, correction, detector, quality=self.data_quality)
 
-            y_values[j] = data[self.quantity].mean()
-            y_errors[j] = data[self.quantity].std()
+            y_values[j], y_errors[j] = self.scan_stats(data[self.quantity], data[self.error])
 
         plt.errorbar(
             x_values,
@@ -116,8 +115,9 @@ class EvoSeparatePlotStrategy(PlotStrategy):
         for j, result in enumerate(results):
             data = result.filter_results_by(fit, correction, detector, quality=self.data_quality)
 
-            y_values[j] = np.average(data[self.quantity], weights=1/data[self.error]**2)
-            y_errors[j] = np.sqrt(np.average((data[self.quantity]-y_values[j])**2, weights=1/data[self.error]**2))
+            y_values[j], y_errors[j] = self.scan_stats(data[self.quantity], data[self.error])
+            # y_values[j] = np.average(data[self.quantity], weights=1/data[self.error]**2)
+            # y_errors[j] = np.sqrt(np.average((data[self.quantity]-y_values[j])**2, weights=1/data[self.error]**2))
 
         plt.errorbar(
             x_values,
@@ -129,13 +129,15 @@ class EvoSeparatePlotStrategy(PlotStrategy):
             elinewidth=self.elinewidth,
         )
 
+        avg, error = self.scan_stats(data[self.quantity], data[self.error])
+        # avg = np.average(y_values, weights=1/y_errors**2)
+        # error = np.sqrt(np.average((y_values-avg)**2, weights=1/y_errors**2))
+        
         plt.xlim(0, len(results)+1)
-        w_avg = np.average(y_values, weights=1/y_errors**2)
-        w_rms = np.sqrt(np.average((y_values-w_avg)**2, weights=1/y_errors**2))
-        plt.axhline(w_avg, color="red", label=f"{self.quantity_latex} {w_avg:.2f} RMS {w_rms:.2f}. ({w_rms/w_avg*100:.2f} %)")
-        plt.axhline(w_avg-w_rms, color="orange", linestyle="--", alpha=0.9)
-        plt.axhline(w_avg+w_rms, color="orange", linestyle="--", alpha=0.9)
-        plt.fill_between(plt.xlim(), w_avg-w_rms, w_avg+w_rms, color="orange", alpha=0.3)
+        plt.axhline(avg, color="red", label=f"{self.quantity_latex} {avg:.2f} +/- {error:.2f}. ({error/avg*100:.2f} %)")
+        plt.axhline(avg-error, color="orange", linestyle="--", alpha=0.9)
+        plt.axhline(avg+error, color="orange", linestyle="--", alpha=0.9)
+        plt.fill_between(plt.xlim(), avg-error, avg+error, color="orange", alpha=0.3)
 
         title = TitleBuilder() \
                 .set_fit(fit) \
@@ -158,3 +160,35 @@ class EvoSeparatePlotStrategy(PlotStrategy):
 
         file = f"{correction}.png"
         plt.savefig(path/file)
+
+
+#############
+# Factories #
+#############
+
+class CapSigmaXEvoPlotStrategy(EvoPlotStrategy):
+    def __init__(self, **kwargs):
+        super().__init__(
+            quantity="CapSigma_X",
+            error="CapSigmaErr_X",
+            quantity_latex=r"$\Sigma_X$",
+            **kwargs,
+        )
+
+class CapSigmaYEvoPlotStrategy(EvoPlotStrategy):
+    def __init__(self, **kwargs):
+        super().__init__(
+            quantity="CapSigma_Y",
+            error="CapSigmaErr_Y",
+            quantity_latex=r"$\Sigma_Y$",
+            **kwargs,
+        )
+
+class SigVisEvoPlotStrategy(EvoSeparatePlotStrategy):
+    def __init__(self, **kwargs):
+        super().__init__(
+            quantity="xsec",
+            error="xsecErr",
+            quantity_latex=r"$\sigma_{\mathrm{vis}}$",
+            **kwargs,
+        )
