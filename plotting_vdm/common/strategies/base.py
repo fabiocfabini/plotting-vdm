@@ -1,5 +1,7 @@
-from typing import Dict, Any
+from typing import Callable, Dict, Any, Tuple
 from pathlib import Path
+
+import numpy as np
 
 from plotting_vdm.scan_results import ScanResults
 from plotting_vdm._typing import OneOrMany
@@ -52,6 +54,14 @@ class PlotStrategy:
         self.markersize: int = kwargs.get("markersize", 5)
         self.elinewidth: float = kwargs.get("elinewidth", 1.0)
         self.data_quality: str = kwargs.get("data_quality", "good")
+        self.scan_stats: Callable[
+            [np.ndarray, np.ndarray],
+            Tuple[float, float]
+        ] = kwargs.get("scan_stats", lambda x, y: (x.mean(), x.std()))
+        self.global_stats: Callable[
+            [np.ndarray, np.ndarray],
+            Tuple[float, float]
+        ] = kwargs.get("global_stats", lambda x, y: (x.mean(), x.std()))
 
     def on_correction_loop_entry(self, results: OneOrMany[ScanResults], fit: str, correction: str) -> bool:
         """
