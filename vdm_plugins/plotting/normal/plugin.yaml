@@ -1,4 +1,5 @@
 name: 'Normal Plot Strategy Plugin'
+alias: 'normal-strat'
 creator: 'Fábio Carneiro'
 runtime: 'strategy.py'
 description: |

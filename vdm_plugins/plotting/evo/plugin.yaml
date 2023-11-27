@@ -1,4 +1,5 @@
-name: 'Correction Effect Plot Strategy Plugin'
+name: 'Evolution Plot Strategy Plugin'
+alias: 'evo-strat'
 creator: 'Fábio Carneiro'
 runtime: 'strategy.py'
 description: |

@@ -1,4 +1,5 @@
 name: 'Ratio Plot Strategy Plugin'
+alias: 'ratio-strat'
 creator: 'Fábio Carneiro'
 runtime: 'strategy.py'
 description: |

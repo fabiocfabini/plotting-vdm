@@ -1,4 +1,5 @@
 name: 'Correction Effect Plot Strategy Plugin'
+alias: 'corr-strat'
 creator: 'Fábio Carneiro'
 runtime: 'strategy.py'
 description: |
