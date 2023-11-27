@@ -11,7 +11,8 @@ from vdm_tools.plotting import PlotContext
 
 
 class EvoStrategy(StrategyPluginCore):
-    """This strategy plots the effect of a correction on a quantity.
+    """This plugin provides a strategy for plotting the evolution
+    of a quantity as a function of scan number.
     """
     def plot(self, i: int, scan_results: Sequence[ScanResults], plot_context: PlotContext) -> None:
         assert isinstance(scan_results, list)

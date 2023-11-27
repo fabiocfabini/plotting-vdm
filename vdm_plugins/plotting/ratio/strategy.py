@@ -10,7 +10,8 @@ from vdm_tools.plotting.utils import match_bcids
 
 
 class RatioStrategy(StrategyPluginCore):
-    """This strategy plots the specified data for a single scan per BCID.
+    """This plugin provides a strategy for plotting the ratio
+    of a given quantity between two different detectors.
     """
     def __init__(self, reference_detector: str, *args, **kwargs):
         super().__init__(*args, **kwargs)
