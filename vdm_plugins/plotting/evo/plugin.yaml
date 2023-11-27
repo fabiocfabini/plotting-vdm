@@ -1,0 +1,6 @@
+name: 'Correction Effect Plot Strategy Plugin'
+creator: 'Fábio Carneiro'
+runtime: 'strategy.py'
+description: |
+  This plugin provides a strategy for plotting the evolution
+  of a quantity as a function of scan number.

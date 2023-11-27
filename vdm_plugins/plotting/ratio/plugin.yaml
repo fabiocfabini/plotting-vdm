@@ -1,0 +1,6 @@
+name: 'Ratio Plot Strategy Plugin'
+creator: 'Fábio Carneiro'
+runtime: 'strategy.py'
+description: |
+  This plugin provides a strategy for plotting the ratio
+  of a given quantity between two different detectors.

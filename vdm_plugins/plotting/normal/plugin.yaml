@@ -1,0 +1,5 @@
+name: 'Normal Plot Strategy Plugin'
+creator: 'Fábio Carneiro'
+runtime: 'strategy.py'
+description: |
+  This plugin provides a strategy for plotting data per BCID.

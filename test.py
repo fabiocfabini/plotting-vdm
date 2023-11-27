@@ -169,7 +169,7 @@ if __name__ == "__main__":
         # "8999_29Jun23_211111_29Jun23_211737": "emit3",
     }
 
-    results_path = Path(input("Output path (example: /eos/user/f/flpereir/www/8999_output): "))
+    results_path = Path("/home/fabiocfabini/cernbox/www/8999_output")
     if not results_path.exists():
         raise ValueError(f"Path {results_path} does not exist")
     res_path = results_path/"analysed_data"
@@ -184,11 +184,11 @@ if __name__ == "__main__":
         fmt="s",
         markersize=8,
         elinewidth=0.5,
-        output_dir=results_path,
+        output_dir=results_path/"..",
     )
     plotter.plot_strategy = strategy
     plotter(all_scans)
-    print(f"Plots saved in {results_path/'plots'}")
+    print(f"Plots saved in {results_path/'../plots'}")
 
     # output = Path("/eos/user/f/flpereir/www/8999_output_with_gs")
     # res_path = Path("/eos/user/f/flpereir/www/8999_output_with_gs/analysed_data")
