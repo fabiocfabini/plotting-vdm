@@ -3,9 +3,9 @@ from pathlib import Path
 
 from types import ModuleType
 
+import importlib.util
 import json
 import yaml
-import importlib.util
 
 from vdm_tools.io import ScanResults
 from .._plugins import PluginConfig
@@ -15,6 +15,8 @@ from ._config import PlottingConfig, StrategyConfig, PlotterConfig, _load_from_d
 
 
 class PlottingEngine:
+    """The plotting engine that dynamically loads the plugins and runs the plotting.
+    """
     def __init__(self, plotting_config_path: str, plotting_plugins_path: str):
         self.registered_modules: Dict[str, StrategyPluginCore] = {}
         self.plotting_plugins_path = Path(plotting_plugins_path)
@@ -129,14 +131,16 @@ class PlottingEngine:
 
         return module
 
-    def _load_plotting_config(self, plotting_config_path: str) -> PlottingConfig:
-        with open(plotting_config_path, "r") as f:
+    @staticmethod
+    def _load_plotting_config(plotting_config_path: str) -> PlottingConfig:
+        with open(plotting_config_path, "r", encoding="utf-8") as f:
             plotting_config = json.load(f)
 
         return _load_from_dict(plotting_config)
 
-    def _load_plugin_config(self, plugin_config_path: str) -> PluginConfig:
-        with open(plugin_config_path, "r") as f:
+    @staticmethod
+    def _load_plugin_config(plugin_config_path: str) -> PluginConfig:
+        with open(plugin_config_path, "r", encoding="utf-8") as f:
             plugin_config = yaml.safe_load(f)
 
         return PluginConfig(**plugin_config)
