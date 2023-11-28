@@ -14,6 +14,9 @@ class EvoStrategy(StrategyPluginCore):
     """This plugin provides a strategy for plotting the evolution
     of a quantity as a function of scan number.
     """
+    # Setting this to True will allow the plotter to know how to call the plot method
+    run_with_list = True
+
     def plot(self, i: int, scan_results: Sequence[ScanResults], plot_context: PlotContext) -> None:
         assert isinstance(scan_results, list)
         x_values = np.arange(1, len(scan_results)+1)
