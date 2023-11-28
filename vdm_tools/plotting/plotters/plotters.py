@@ -90,7 +90,16 @@ class VdMPlotter(metaclass=RunFiltersMeta):
         if self.plot_strategy is None:
             raise ValueError("Plot strategy has not been set.")
 
-        self.run(scan_results)
+        if isinstance(scan_results, Sequence) and not isinstance(scan_results, str):
+            if self.plot_strategy.run_with_list:
+                self.run(scan_results)
+            else:
+                for result in scan_results:
+                    self.run(result)
+        elif isinstance(scan_results, ScanResults):
+            self.run(scan_results)
+        else:
+            raise TypeError("plot method expects ScanResults or Sequence[ScanResults]")
 
     def run(self, scan_results: Union[ScanResults, Sequence[ScanResults]]) -> None:
         """Method that runs the plotting procedure.

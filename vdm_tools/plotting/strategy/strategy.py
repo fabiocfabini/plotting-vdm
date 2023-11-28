@@ -73,6 +73,7 @@ class StrategyPluginCore(metaclass=StrategyPluginRegistry):
     meta : StrategyMeta, default_factory=StrategyMeta
         The meta information of the strategy.
     """
+    run_with_list: bool = field(default=False, init=False)
     id: str
     quantity: str
     error: str
