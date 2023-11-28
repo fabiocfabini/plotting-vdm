@@ -33,6 +33,12 @@ class NormalStrategy(StrategyPluginCore):
             elinewidth=self.meta.elinewidth,
         )
 
+        # Only plot the average if we are not plotting per detector
+        if plot_context.plotter.is_per_detector():
+            avg, error = self.scan_stats(data[self.quantity], data[self.error])
+            plt.axhline(avg, color="red", linestyle="--", label=f"{self.latex}: {avg:.3f} +- {error:.5f}")
+            plt.axhspan(avg - error, avg + error, color="red", alpha=0.2)
+
     def style(self, scan_results: ScanResults, plot_context: PlotContext) -> None:
         # Call the parent method if you want to keep the default styling
         super().style(scan_results, plot_context)
@@ -49,5 +55,4 @@ class NormalStrategy(StrategyPluginCore):
         plt.title(title)
         plt.xlabel("BCID")
         plt.ylabel(self.latex)
-        if not plot_context.plotter.is_per_detector():
-            plt.legend(loc=self.meta.legend_loc, fontsize=self.meta.legend_fontsize)
+        plt.legend(loc=self.meta.legend_loc, fontsize=self.meta.legend_fontsize)
