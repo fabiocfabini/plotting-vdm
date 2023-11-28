@@ -1,0 +1,112 @@
+{
+    "plugins": [
+        "normal", "corr", "evo", "ratio"
+    ],
+
+    "results": [
+        {
+            "name": "VdM1",
+            "fits": ["DG"],
+            "path": "/home/fabiocfabini/cernbox/www/8999_output/analysed_data/8999_28Jun23_230143_28Jun23_232943" 
+        },
+        {
+            "name": "BI1",
+            "fits": ["DG"],
+            "path": "/home/fabiocfabini/cernbox/www/8999_output/analysed_data/8999_29Jun23_004658_29Jun23_011220" 
+        },
+        {
+            "name": "BI2",
+            "fits": ["DG"],
+            "path": "/home/fabiocfabini/cernbox/www/8999_output/analysed_data/8999_29Jun23_013851_29Jun23_020425" 
+        },
+        {
+            "name": "VdM2",
+            "fits": ["DG"],
+            "path": "/home/fabiocfabini/cernbox/www/8999_output/analysed_data/8999_29Jun23_023227_29Jun23_025502" 
+        },
+        {
+            "name": "VdM3",
+            "fits": ["DG"],
+            "path": "/home/fabiocfabini/cernbox/www/8999_output/analysed_data/8999_29Jun23_073830_29Jun23_080352" 
+        },
+        {
+            "name": "VdM4",
+            "fits": ["DG"],
+            "path": "/home/fabiocfabini/cernbox/www/8999_output/analysed_data/8999_29Jun23_092415_29Jun23_094738" 
+        },
+        {
+            "name": "VdM5",
+            "fits": ["DG"],
+            "path": "/home/fabiocfabini/cernbox/www/8999_output/analysed_data/8999_29Jun23_110004_29Jun23_112226" 
+        },
+        {
+            "name": "VdM6",
+            "fits": ["DG"],
+            "path": "/home/fabiocfabini/cernbox/www/8999_output/analysed_data/8999_29Jun23_123257_29Jun23_125514" 
+        }
+    ],
+
+    "plots": [
+        {
+            "plotter": {
+                "name": "PerDetectorPlotter"
+            },
+            "strategy": {
+                "name": "EvoStrategy",
+                "id": "evo",
+                "quantity": "xsec",
+                "error": "xsecErr",
+                "kwargs": {
+                    "file_suffix": "_TestingSuffix",
+                    "latex": "$\\sigma_{\\mathrm{vis}}$",
+                    "data_quality": "good",
+                    "meta": {
+                        "fmt": "s",
+                        "markersize": 8,
+                        "elinewidth": 0.5
+                    }
+                }
+            }
+        },
+        {
+            "plotter": {
+                "name": "PerDetectorPlotter"
+            },
+            "strategy": {
+                "name": "NormalStrategy",
+                "id": "normal",
+                "quantity": "CapSigma_X",
+                "error": "CapSigmaErr_X",
+                "kwargs": {
+                    "latex": "$\\Sigma_{X}$",
+                    "data_quality": "good",
+                    "meta": {
+                        "fmt": "s",
+                        "markersize": 6,
+                        "elinewidth": 0.5
+                    }
+                }
+            }
+        },
+        {
+            "plotter": {
+                "name": "VdMPlotter"
+            },
+            "strategy": {
+                "name": "EvoStrategy",
+                "id": "evo",
+                "quantity": "CapSigma_X",
+                "error": "CapSigmaErr_X",
+                "kwargs": {
+                    "latex": "$\\Sigma_{X}$",
+                    "data_quality": "good",
+                    "meta": {
+                        "fmt": "o",
+                        "markersize": 8,
+                        "elinewidth": 0.5
+                    }
+                }
+            }
+        }
+    ]
+}
