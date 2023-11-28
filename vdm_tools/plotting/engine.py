@@ -10,7 +10,7 @@ import importlib.util
 from vdm_tools.io import ScanResults
 from .._plugins import PluginConfig
 from .plotters import VdMPlotter, PerDetectorPlotter
-from .strategy import StrategyPluginCore
+from .strategy import StrategyPluginCore, StrategyMeta
 from ._config import PlottingConfig, StrategyConfig, PlotterConfig, _load_from_dict
 
 
@@ -70,10 +70,14 @@ class PlottingEngine:
         except KeyError as exc:
             raise KeyError(f"Strategy {strategy_config.name} not found. Did you load the plugin?") from exc
 
+        # get meta from kwargs and remove it from kwargs. Setting default value to None
+        meta = strategy_config.kwargs.pop("meta", None)
+
         return strategy(
             id=strategy_config.id,
             quantity=strategy_config.quantity,
             error=strategy_config.error,
+            meta=StrategyMeta(**meta) if meta is not None else None,
             **strategy_config.kwargs,
         )
 

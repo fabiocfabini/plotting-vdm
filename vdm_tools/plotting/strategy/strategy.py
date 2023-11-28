@@ -93,12 +93,15 @@ class StrategyPluginCore(metaclass=StrategyPluginRegistry):
     scan_stats: Callable[[ArrayLike, ArrayLike], Tuple[float, float]] = field(
         default_factory=lambda: lambda val, err: (val.mean(), val.std())
     )
-    meta: StrategyMeta = field(default_factory=StrategyMeta)
+    meta: StrategyMeta = None
 
     def __post_init__(self):
         if not isinstance(self.output_dir, Path):
             self.output_dir = Path(self.output_dir)
         self.output_dir = self.output_dir/self.id
+
+        if self.meta is None:
+            self.meta = StrategyMeta()
 
     @overload
     def prepare(self, scan_results: ScanResults, plot_context: PlotContext) -> None: ...
