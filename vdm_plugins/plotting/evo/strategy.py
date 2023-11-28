@@ -59,7 +59,7 @@ class EvoStrategy(StrategyPluginCore):
         super().style(scan_results, plot_context)
 
         builder = TitleBuilder() \
-                .set_info(self.quantity) \
+                .set_info(self.latex) \
                 .set_fit(plot_context.current_fit) \
                 .set_correction(plot_context.current_correction)
 
