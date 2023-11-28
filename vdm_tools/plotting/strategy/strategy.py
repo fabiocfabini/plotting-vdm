@@ -72,6 +72,13 @@ class StrategyPluginCore(metaclass=StrategyPluginRegistry):
             - The second will be considered the deviation of the expected value
     meta : StrategyMeta, default_factory=StrategyMeta
         The meta information of the strategy.
+
+    Attributes
+    ----------
+    run_with_list : bool, default=False
+        A flag that indicates whether or not the strategy should be run with a list of
+        ScanResults. If this flag is set to True, then the strategy will be run with a
+        list of ScanResults. Otherwise, the strategy will be run with a single ScanResults.
     """
     run_with_list: bool = field(default=False, init=False)
     id: str
