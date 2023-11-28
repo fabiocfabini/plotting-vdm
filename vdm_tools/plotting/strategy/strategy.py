@@ -54,6 +54,8 @@ class StrategyPluginCore(metaclass=StrategyPluginRegistry):
     data_quality : str, default="as_is"
         The data quality that will be used to filter the data. This value must be one of
         'as_is', 'good', 'bad' as specified in the ScanResults instance.
+    file_suffix : str, default=""
+        A suffix that will be appended to the name of the file.
     output_dir : Path or str, default=Path("./plots")
         The directory where the plots will be saved. If a string is passed, it will be
         converted to a Path object.
@@ -86,6 +88,7 @@ class StrategyPluginCore(metaclass=StrategyPluginRegistry):
     error: str
     latex: str = ""
     data_quality: str = "as_is"
+    file_suffix: str = ""
     output_dir: Path = Path("./plots")
     fit_filters: List[Callable[[str, PlotContext], bool]] = field(default_factory=list)
     detector_filters: List[Callable[[str, PlotContext], bool]] = field(default_factory=list)
@@ -198,7 +201,7 @@ class StrategyPluginCore(metaclass=StrategyPluginRegistry):
         path = self.__compute_path(scan_results, plot_context)
         path.mkdir(parents=True, exist_ok=True)
 
-        file = f"{plot_context.current_correction}.png"
+        file = f"{plot_context.current_correction}{self.file_suffix}.png"
         plt.savefig(path/file)
 
     def __compute_path(self, scan_results: Union[ScanResults, Sequence[ScanResults]], plot_context: PlotContext) -> Path:
