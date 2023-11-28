@@ -56,7 +56,7 @@ class PlottingEngine:
 
     def _get_plotter(self, plotter_config: PlotterConfig, strategy: StrategyPluginCore) -> VdMPlotter:
         if plotter_config.name == "PerDetectorPlotter":
-            plotter = PerDetectorPlotter(strategy)
+            plotter = PerDetectorPlotter(plot_strategy=strategy)
         elif plotter_config.name == "VdMPlotter":
             plotter = VdMPlotter(plot_strategy=strategy)
         else:
