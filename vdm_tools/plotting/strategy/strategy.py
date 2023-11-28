@@ -14,12 +14,12 @@ from .meta import StrategyMeta
 
 # pylint: disable=W0613
 class StrategyPluginRegistry(type):
-    """Metaclass that registers all subclasses of `PlotStrategy` in a dictionary."""
+    """Metaclass that registers all subclasses of `StrategyPluginCore` in a dictionary."""
     registered_strategies: Dict[str, StrategyPluginCore] = {}
 
     def __init__(cls, name, bases, attrs):
         super().__init__(cls)
-        if name != "PlotStrategy":
+        if name != "StrategyPluginCore":
             StrategyPluginRegistry.registered_strategies[name] = cls
 
 
