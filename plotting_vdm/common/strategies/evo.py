@@ -118,6 +118,8 @@ class EvoSeparatePlotStrategy(PlotStrategy):
             y_values[j], y_errors[j] = self.scan_stats(data[self.quantity], data[self.error])
             # y_values[j] = np.average(data[self.quantity], weights=1/data[self.error]**2)
             # y_errors[j] = np.sqrt(np.average((data[self.quantity]-y_values[j])**2, weights=1/data[self.error]**2))
+            # y_values[j] = data[self.quantity].mean()
+            # y_errors[j] =   data[self.quantity].std()
 
         plt.errorbar(
             x_values,
@@ -129,12 +131,14 @@ class EvoSeparatePlotStrategy(PlotStrategy):
             elinewidth=self.elinewidth,
         )
 
-        avg, error = self.scan_stats(data[self.quantity], data[self.error])
+        avg, error = self.scan_stats(y_values, y_errors)
         # avg = np.average(y_values, weights=1/y_errors**2)
         # error = np.sqrt(np.average((y_values-avg)**2, weights=1/y_errors**2))
-        
+        # avg = y_values.mean()
+        # error = y_values.std()
+
         plt.xlim(0, len(results)+1)
-        plt.axhline(avg, color="red", label=f"{self.quantity_latex} {avg:.2f} +/- {error:.2f}. ({error/avg*100:.2f} %)")
+        plt.axhline(avg, color="red", label=f"{self.quantity_latex} {avg:.2f} RMS {error:.2f}. ({error/avg*100:.2f} %)")
         plt.axhline(avg-error, color="orange", linestyle="--", alpha=0.9)
         plt.axhline(avg+error, color="orange", linestyle="--", alpha=0.9)
         plt.fill_between(plt.xlim(), avg-error, avg+error, color="orange", alpha=0.3)

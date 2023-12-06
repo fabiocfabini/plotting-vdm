@@ -5,6 +5,13 @@ from plotting_vdm.scan_results import ScanResults
 from plotting_vdm.common.strategies import corr, normal, ratio, evo
 
 
+def scan_stats(x, y):
+    import numpy as np
+    weihgts = y**-2
+    avg = np.average(x, weights=weihgts)
+    err = np.sqrt(np.average((x-avg)**2, weights=weihgts))
+    return avg, err
+
 if __name__ == "__main__":
     # scan = ScanResults(Path("analysed_data/8381_11Nov22_114759_11Nov22_121408"), fits=["SG", "DG"])
     # plotter = VdMPlotter()
@@ -184,7 +191,8 @@ if __name__ == "__main__":
         fmt="s",
         markersize=8,
         elinewidth=0.5,
-        output_dir=results_path,
+        output_dir=results_path/"compare",
+        scan_stats=scan_stats,
     )
     plotter.plot_strategy = strategy
     plotter(all_scans)
